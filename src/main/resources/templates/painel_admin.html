@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel Administrativo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8f9fa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      flex-direction: column;
+    }
+    h2 {
+      margin-bottom: 30px;
+      font-size: 24px;
+      text-align: center;
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+    .row {
+      display: flex;
+      gap: 20px;
+    }
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 250px;
+      height: 50px;
+      border: 4px solid black;
+      border-radius: 30px;
+      background: white;
+      font-size: 18px;
+      text-decoration: none;
+      color: black;
+      font-weight: bold;
+      text-align: center;
+    }
+    .btn:hover {
+      background: #007BFF;
+      color: white;
+      border-color: #0056b3;
+    }
+    .btn-exit {
+      margin-top: 30px;
+      width: 200px;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Escolha as Opções:</h2>
+
+<div class="container">
+  <div class="row">
+    <a th:href="@{/usuarios/novo}" class="btn">Cadastrar Paciente</a>
+    <a th:href="@{/dentistas/novo}" class="btn">Cadastrar Dentista</a>
+  </div>
+
+  <div class="row">
+    <a th:href="@{/usuarios}" class="btn">Pacientes Existentes</a>
+    <a th:href="@{/dentistas}" class="btn">Dentistas Existentes</a>
+  </div>
+
+  <a th:href="@{/login_admin.html}" class="btn btn-exit">Sair</a>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lista de Usuários</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f8f9fa; padding: 20px; }
+    .container { max-width: 1200px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); }
+    .buttons { display: flex; justify-content: space-between; margin-bottom: 15px; }
+    .btn { padding: 10px; border: none; cursor: pointer; border-radius: 5px; text-decoration: none; font-size: 16px; text-align: center; }
+    .add { background: #007BFF; color: white; }
+    .back { background: #6c757d; color: white; }
+    .search-box { margin-bottom: 15px; }
+    input[type="text"] { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 16px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { border: 1px solid #ddd; padding: 10px; text-align: left; font-size: 14px; }
+    th { background: #007BFF; color: white; }
+    .actions { display: flex; gap: 10px; }
+    .edit { background: #28a745; color: white; text-decoration: none; padding: 5px 10px; border-radius: 5px; }
+    .delete { background: #dc3545; color: white; text-decoration: none; padding: 5px 10px; border-radius: 5px; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="buttons">
+    <a th:href="@{/painel}" class="btn back">🔙 Voltar</a>
+    <a th:href="@{/usuarios/novo}" class="btn add">+ Cadastrar Novo Usuário</a>
+  </div>
+
+  <h2>Lista de Usuários</h2>
+
+  <div class="search-box">
+    <input type="text" id="searchInput" onkeyup="buscarUsuario()" placeholder="🔍 Buscar usuário...">
+  </div>
+
+  <table id="usuariosTable">
+    <thead>
+    <tr>
+      <th>Nome</th>
+      <th>Email</th>
+      <th>CPF</th>
+      <th>Data de Nascimento</th>
+      <th>Telefone</th>
+      <th>Endereço</th>
+      <th>Ações</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="usuario : ${usuarios}">
+      <td th:text="${usuario.nome}"></td>
+      <td th:text="${usuario.email}"></td>
+      <td th:text="${usuario.cpf}"></td>
+      <td th:text="${usuario.dataNascimento}"></td>
+      <td th:text="${usuario.telefone}"></td>
+      <td th:text="${usuario.endereco}"></td>
+      <td class="actions">
+        <a th:href="@{/usuarios/editar/{id}(id=${usuario.id})}" class="edit">Editar</a>
+        <a th:href="@{/usuarios/excluir/{id}(id=${usuario.id})}" class="delete">Excluir</a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<script>
+  function buscarUsuario() {
+    let input = document.getElementById("searchInput").value.toLowerCase();
+    let table = document.getElementById("usuariosTable");
+    let tr = table.getElementsByTagName("tr");
+
+    for (let i = 1; i < tr.length; i++) {
+      let tdNome = tr[i].getElementsByTagName("td")[0];
+      let tdEmail = tr[i].getElementsByTagName("td")[1];
+
+      if (tdNome && tdEmail) {
+        let nome = tdNome.textContent.toLowerCase();
+        let email = tdEmail.textContent.toLowerCase();
+
+        if (nome.includes(input) || email.includes(input)) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+    }
+  }
+</script>
+
+</body>
+</html>

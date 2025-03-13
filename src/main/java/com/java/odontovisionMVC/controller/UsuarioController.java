@@ -13,10 +13,10 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
-    @GetMapping
+    @GetMapping("/usuarios")
     public String listarUsuarios(Model model) {
         model.addAttribute("usuarios", usuarioService.listarTodos());
-        return "usuario/lista";
+        return "listar_usuarios";
     }
 
     @GetMapping("/novo")
@@ -34,12 +34,17 @@ public class UsuarioController {
     @GetMapping("/editar/{id}")
     public String editarUsuario(@PathVariable Long id, Model model) {
         model.addAttribute("usuario", usuarioService.buscarPorId(id).orElse(null));
-        return "usuario/formulario";
+        return "editar_usuario";
     }
 
     @GetMapping("/excluir/{id}")
     public String excluirUsuario(@PathVariable Long id) {
         usuarioService.excluir(id);
         return "redirect:/usuarios";
+    }
+
+    @GetMapping("/painel")
+    public String painelAdmin() {
+        return "painel_admin"; // Redireciona para o painel Thymeleaf
     }
 }

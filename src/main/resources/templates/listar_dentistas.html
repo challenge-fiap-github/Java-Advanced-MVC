@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lista de Dentistas</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f8f9fa; padding: 20px; }
+    .container { max-width: 1200px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); }
+    .buttons { display: flex; justify-content: space-between; margin-bottom: 15px; }
+    .btn { padding: 10px; border: none; cursor: pointer; border-radius: 5px; text-decoration: none; font-size: 16px; text-align: center; }
+    .add { background: #007BFF; color: white; }
+    .back { background: #6c757d; color: white; }
+    .search-box { margin-bottom: 15px; }
+    input[type="text"] { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 16px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { border: 1px solid #ddd; padding: 10px; text-align: left; font-size: 14px; }
+    th { background: #007BFF; color: white; }
+    .actions { display: flex; gap: 10px; }
+    .edit { background: #28a745; color: white; text-decoration: none; padding: 5px 10px; border-radius: 5px; }
+    .delete { background: #dc3545; color: white; text-decoration: none; padding: 5px 10px; border-radius: 5px; }
+  </style>
+</head>
+<body>
+
+<div class="buttons">
+  <a href="painel_admin.html" class="btn back">🔙 Voltar</a>
+  <a href="forms_dentista.html" class="btn add">+ Cadastrar Novo Dentista</a>
+</div>
+
+<table id="dentistasTable">
+  <thead>
+  <tr>
+    <th>Nome</th>
+    <th>Email</th>
+    <th>Telefone</th>
+    <th>CRO</th>
+    <th>Especialidade</th>
+    <th>Endereço</th>
+    <th>Ações</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="dentista : ${dentistas}">
+    <td th:text="${dentista.nome}"></td>
+    <td th:text="${dentista.email}"></td>
+    <td th:text="${dentista.telefone}"></td>
+    <td th:text="${dentista.cro}"></td>
+    <td th:text="${dentista.especialidade}"></td>
+    <td th:text="${dentista.endereco}"></td>
+    <td class="actions">
+      <a th:href="@{/dentistas/editar/{id}(id=${dentista.id})}" class="edit">Editar</a>
+      <a th:href="@{/dentistas/excluir/{id}(id=${dentista.id})}" class="delete">Excluir</a>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+</body>
+</html>
