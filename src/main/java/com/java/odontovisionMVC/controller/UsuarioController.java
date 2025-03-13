@@ -22,7 +22,7 @@ public class UsuarioController {
     @GetMapping("/novo")
     public String novoUsuario(Model model) {
         model.addAttribute("usuario", new Usuario());
-        return "usuario/formulario";
+        return "forms_usuarios";
     }
 
     @PostMapping("/salvar")
@@ -40,7 +40,7 @@ public class UsuarioController {
     @GetMapping("/excluir/{id}")
     public String excluirUsuario(@PathVariable Long id) {
         usuarioService.excluir(id);
-        return "redirect:/usuarios";
+        return "forms_usuarios";
     }
 
     @GetMapping("/painel")

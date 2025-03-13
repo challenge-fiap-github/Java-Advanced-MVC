@@ -9,17 +9,23 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class LoginController {
 
-    @PostMapping("/login")
-    public String login(@RequestParam String usuario, @RequestParam String senha, Model model) {
-        if ("admin123".equals(usuario) && "admin123".equals(senha)) {
-            return "redirect:/painel_admin"; // Redireciona para o painel administrativo
-        }
-        model.addAttribute("erro", "Usuário ou senha incorretos!");
-        return "login"; // Retorna para a página de login em caso de erro
-    }
-
     @GetMapping("/login")
     public String mostrarLogin() {
-        return "login";
+        return "login_admin"; // Certifique-se de que este é o nome correto do arquivo HTML
+    }
+
+    @PostMapping("/login")
+    public String processarLogin(@RequestParam String usuario, @RequestParam String senha, Model model) {
+        if ("admin123".equals(usuario) && "admin123".equals(senha)) {
+            return "redirect:/painel"; // Redireciona para o painel admin
+        } else {
+            model.addAttribute("erro", "Usuário ou senha incorretos!");
+            return "login_admin"; // Retorna a tela de login com erro
+        }
+    }
+
+    @GetMapping("/painel")
+    public String painelAdmin() {
+        return "painel_admin"; // Nome correto do arquivo HTML
     }
 }
