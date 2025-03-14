@@ -31,18 +31,16 @@ public class DentistaController {
 
     @PostMapping("/salvar")
     public String salvarDentista(@ModelAttribute Dentista dentista) {
-        // Se o endereço for nulo, cria um novo objeto para evitar erro de NULL
-        if (dentista.getEndereco() == null) {
-            dentista.setEndereco(new EnderecoClinica());
+        // Primeiro, salva o dentista
+        Dentista dentistaSalvo = dentistaService.salvar(dentista);
+
+        // Agora, associa o endereço ao dentista e salva novamente
+        if (dentista.getEndereco() != null) {
+            dentista.getEndereco().setDentista(dentistaSalvo);
+            dentistaService.salvar(dentistaSalvo);
         }
 
-        // Define a referência do dentista dentro do endereço
-        dentista.getEndereco().setDentista(dentista);
-
-        // Salva no banco
-        dentistaService.salvar(dentista);
-
-        return "redirect:/dentistas/cadastrado"; // Redireciona para a página de confirmação
+        return "redirect:/dentistas/cadastrado";
     }
 
 

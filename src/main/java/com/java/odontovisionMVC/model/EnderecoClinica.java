@@ -10,38 +10,89 @@ public class EnderecoClinica {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(mappedBy = "endereco")
+    @OneToOne
+    @JoinColumn(name = "dentista_id", nullable = false)
     private Dentista dentista;
 
+    @Column(nullable = false)
     private String logradouro;
+
+    @Column(nullable = false)
     private String numero;
+
+    @Column(nullable = false)
     private String cidade;
+
+    @Column(nullable = false)
     private String estado;
+
+    @Column(nullable = false)
     private String cep;
+
     private String complemento;
 
     // Getters e Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Long getId() {
+        return id;
+    }
 
-    public Dentista getDentista() { return dentista; }
-    public void setDentista(Dentista dentista) { this.dentista = dentista; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public String getLogradouro() { return logradouro; }
-    public void setLogradouro(String logradouro) { this.logradouro = logradouro; }
+    public Dentista getDentista() {
+        return dentista;
+    }
 
-    public String getNumero() { return numero; }
-    public void setNumero(String numero) { this.numero = numero; }
+    public void setDentista(Dentista dentista) {
+        this.dentista = dentista;
+    }
 
-    public String getCidade() { return cidade; }
-    public void setCidade(String cidade) { this.cidade = cidade; }
+    public String getLogradouro() {
+        return logradouro;
+    }
 
-    public String getEstado() { return estado; }
-    public void setEstado(String estado) { this.estado = estado; }
+    public void setLogradouro(String logradouro) {
+        this.logradouro = logradouro;
+    }
 
-    public String getCep() { return cep; }
-    public void setCep(String cep) { this.cep = cep; }
+    public String getNumero() {
+        return numero;
+    }
 
-    public String getComplemento() { return complemento; }
-    public void setComplemento(String complemento) { this.complemento = complemento; }
+    public void setNumero(String numero) {
+        this.numero = numero;
+    }
+
+    public String getCidade() {
+        return cidade;
+    }
+
+    public void setCidade(String cidade) {
+        this.cidade = cidade;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public String getCep() {
+        return cep;
+    }
+
+    public void setCep(String cep) {
+        this.cep = cep;
+    }
+
+    public String getComplemento() {
+        return complemento;
+    }
+
+    public void setComplemento(String complemento) {
+        this.complemento = complemento;
+    }
 }

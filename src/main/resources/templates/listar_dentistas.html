@@ -48,7 +48,7 @@
     <td th:text="${dentista.telefone}"></td>
     <td th:text="${dentista.cro}"></td>
     <td th:text="${dentista.especialidade}"></td>
-    <td th:text="${dentista.endereco}"></td>
+    <td th:text="${dentista.endereco.logradouro + ', ' + dentista.endereco.numero + ', ' + dentista.endereco.cidade + ' - ' + dentista.endereco.estado}"></td>
     <td class="actions">
       <a th:href="@{/dentistas/editar/{id}(id=${dentista.id})}" class="edit">Editar</a>
       <a th:href="@{/dentistas/confirmar_exclusao/{id}(id=${dentista.id})}" class="delete">Excluir</a>

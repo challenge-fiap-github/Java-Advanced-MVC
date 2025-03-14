@@ -32,18 +32,16 @@ public class UsuarioController {
     // Salvar um novo usuário e redirecionar para a página de confirmação
     @PostMapping("/salvar")
     public String salvarUsuario(@ModelAttribute Usuario usuario) {
-        // Se o endereço for nulo, cria um novo objeto para evitar erro de NULL
-        if (usuario.getEndereco() == null) {
-            usuario.setEndereco(new EnderecoUsuario());
+        // Primeiro, salva o usuario
+        Usuario usuarioSalvo = usuarioService.salvar(usuario);
+
+        // Agora, associa o endereço ao usuario e salva novamente
+        if (usuario.getEndereco() != null) {
+            usuario.getEndereco().setUsuario(usuarioSalvo);
+            usuarioService.salvar(usuarioSalvo);
         }
 
-        // Define a referência do usuário dentro do endereço
-        usuario.getEndereco().setUsuario(usuario);
-
-        // Salva no banco
-        usuarioService.salvar(usuario);
-
-        return "redirect:/usuarios/cadastrado"; // Redireciona para a página de confirmação
+        return "redirect:/usuarios/cadastrado";
     }
 
 
