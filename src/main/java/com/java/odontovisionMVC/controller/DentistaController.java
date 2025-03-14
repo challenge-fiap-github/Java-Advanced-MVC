@@ -29,22 +29,22 @@ public class DentistaController {
         return "dentista_form"; // Página do formulário de cadastro
     }
 
-    // Salvar um novo dentista e redirecionar para a página de confirmação
     @PostMapping("/salvar")
     public String salvarDentista(@ModelAttribute Dentista dentista) {
-        // Verifica se o endereço está preenchido
+        // Se o endereço for nulo, cria um novo objeto para evitar erro de NULL
         if (dentista.getEndereco() == null) {
-            dentista.setEndereco(new EnderecoClinica()); // Evita erro de NULL
+            dentista.setEndereco(new EnderecoClinica());
         }
 
-        // Define a referência do dentista no endereço
+        // Define a referência do dentista dentro do endereço
         dentista.getEndereco().setDentista(dentista);
 
         // Salva no banco
         dentistaService.salvar(dentista);
 
-        return "redirect:/dentistas/cadastrado"; // Redireciona para página de confirmação
+        return "redirect:/dentistas/cadastrado"; // Redireciona para a página de confirmação
     }
+
 
     // Página de dentista cadastrado com sucesso
     @GetMapping("/cadastrado")
