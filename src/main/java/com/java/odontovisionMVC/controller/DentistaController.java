@@ -1,10 +1,10 @@
 package com.java.odontovisionMVC.controller;
 
-import org.springframework.ui.Model;
 import com.java.odontovisionMVC.model.Dentista;
 import com.java.odontovisionMVC.service.DentistaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -14,35 +14,48 @@ public class DentistaController {
     @Autowired
     private DentistaService dentistaService;
 
-    // Lista todos os dentistas e exibe a página correta
+    // Listar dentistas
     @GetMapping
     public String listarDentistas(Model model) {
         model.addAttribute("dentistas", dentistaService.listarTodos());
-        return "listar_dentistas"; // Nome da página Thymeleaf correta
+        return "listar_dentistas"; // Página de listagem
     }
 
-    // Exibe o formulário para adicionar um novo dentista
+    // Exibir formulário para adicionar um novo dentista
     @GetMapping("/novo")
     public String novoDentista(Model model) {
         model.addAttribute("dentista", new Dentista());
-        return "dentista_form"; // Página Thymeleaf para cadastro
+        return "forms_dentista"; // Página do formulário de cadastro
     }
 
-    // Salva um novo dentista ou atualiza um existente
+    // Salvar um novo dentista e redirecionar para a página de confirmação
     @PostMapping("/salvar")
     public String salvarDentista(@ModelAttribute Dentista dentista) {
         dentistaService.salvar(dentista);
-        return "redirect:/dentistas";
+        return "redirect:/dentistas/cadastrado"; // Redireciona para página de confirmação
     }
 
-    // Exibe o formulário para editar um dentista existente
+    // Página de dentista cadastrado com sucesso
+    @GetMapping("/cadastrado")
+    public String dentistaCadastrado() {
+        return "dentista_cadastrado"; // Página de confirmação do cadastro
+    }
+
+    // Exibir formulário para editar um dentista existente
     @GetMapping("/editar/{id}")
     public String editarDentista(@PathVariable Long id, Model model) {
         model.addAttribute("dentista", dentistaService.buscarPorId(id).orElse(null));
         return "editar_dentista";
     }
 
-    // Exclui um dentista pelo ID
+    // Redirecionar para a página de confirmação de exclusão
+    @GetMapping("/confirmar_exclusao/{id}")
+    public String confirmarExclusao(@PathVariable Long id, Model model) {
+        model.addAttribute("dentista", dentistaService.buscarPorId(id).orElse(null));
+        return "confirmar_exclusao_dentista"; // Página de confirmação de exclusão
+    }
+
+    // Excluir dentista e redirecionar para a lista de dentistas
     @GetMapping("/excluir/{id}")
     public String excluirDentista(@PathVariable Long id) {
         dentistaService.excluir(id);
@@ -52,6 +65,6 @@ public class DentistaController {
     // Página do painel administrativo
     @GetMapping("/painel")
     public String painelAdmin() {
-        return "painel_admin"; // Redireciona para o painel Thymeleaf
+        return "painel_admin";
     }
 }

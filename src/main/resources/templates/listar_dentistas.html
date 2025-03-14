@@ -24,9 +24,10 @@
 <body>
 
 <div class="buttons">
-  <a href="painel_admin.html" class="btn back">🔙 Voltar</a>
-  <a href="forms_dentista.html" class="btn add">+ Cadastrar Novo Dentista</a>
+  <a th:href="@{/painel}" class="btn back">🔙 Voltar</a>
+  <a th:href="@{/dentistas/novo}" class="btn add">+ Cadastrar Novo Dentista</a>
 </div>
+
 
 <table id="dentistasTable">
   <thead>
@@ -50,7 +51,7 @@
     <td th:text="${dentista.endereco}"></td>
     <td class="actions">
       <a th:href="@{/dentistas/editar/{id}(id=${dentista.id})}" class="edit">Editar</a>
-      <a th:href="@{/dentistas/excluir/{id}(id=${dentista.id})}" class="delete">Excluir</a>
+      <a th:href="@{/dentistas/confirmar_exclusao/{id}(id=${dentista.id})}" class="delete">Excluir</a>
     </td>
   </tr>
   </tbody>
