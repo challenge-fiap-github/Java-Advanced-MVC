@@ -1,6 +1,7 @@
 package com.java.odontovisionMVC.controller;
 
 import com.java.odontovisionMVC.model.Dentista;
+import com.java.odontovisionMVC.model.EnderecoClinica;
 import com.java.odontovisionMVC.service.DentistaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,13 +26,23 @@ public class DentistaController {
     @GetMapping("/novo")
     public String novoDentista(Model model) {
         model.addAttribute("dentista", new Dentista());
-        return "forms_dentista"; // Página do formulário de cadastro
+        return "dentista_form"; // Página do formulário de cadastro
     }
 
     // Salvar um novo dentista e redirecionar para a página de confirmação
     @PostMapping("/salvar")
     public String salvarDentista(@ModelAttribute Dentista dentista) {
+        // Verifica se o endereço está preenchido
+        if (dentista.getEndereco() == null) {
+            dentista.setEndereco(new EnderecoClinica()); // Evita erro de NULL
+        }
+
+        // Define a referência do dentista no endereço
+        dentista.getEndereco().setDentista(dentista);
+
+        // Salva no banco
         dentistaService.salvar(dentista);
+
         return "redirect:/dentistas/cadastrado"; // Redireciona para página de confirmação
     }
 

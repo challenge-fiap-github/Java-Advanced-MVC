@@ -1,6 +1,7 @@
 package com.java.odontovisionMVC.controller;
 
 import com.java.odontovisionMVC.model.Usuario;
+import com.java.odontovisionMVC.model.EnderecoUsuario;
 import com.java.odontovisionMVC.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,7 +32,17 @@ public class UsuarioController {
     // Salvar um novo usuário e redirecionar para a página de confirmação
     @PostMapping("/salvar")
     public String salvarUsuario(@ModelAttribute Usuario usuario) {
+        // Verifica se o usuário tem um endereço associado
+        if (usuario.getEndereco() == null) {
+            usuario.setEndereco(new EnderecoUsuario()); // Garante que não seja nulo
+        }
+
+        // Define a referência do usuário no endereço
+        usuario.getEndereco().setUsuario(usuario);
+
+        // Salva no banco
         usuarioService.salvar(usuario);
+
         return "redirect:/usuarios/cadastrado"; // Redireciona para página de confirmação
     }
 

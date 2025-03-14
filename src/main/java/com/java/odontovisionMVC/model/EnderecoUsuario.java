@@ -5,24 +5,29 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "endereco_usuario")
 public class EnderecoUsuario {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String logradouro;
+    private String numero;
+    private String cidade;
+    private String estado;
+    private String cep;
+    private String complemento;
+
+    @OneToOne
+    @JoinColumn(name = "usuario_id", nullable = false)
+    private Usuario usuario;
+
+    // Getters e Setters
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
     }
 
     public String getLogradouro() {
@@ -73,16 +78,11 @@ public class EnderecoUsuario {
         this.complemento = complemento;
     }
 
-    @OneToOne
-    @JoinColumn(name = "usuario_id", nullable = false)
-    private Usuario usuario;
+    public Usuario getUsuario() {
+        return usuario;
+    }
 
-    private String logradouro;
-    private String numero;
-    private String cidade;
-    private String estado;
-    private String cep;
-    private String complemento;
-
-    // Getters e Setters
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
 }

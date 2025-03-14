@@ -9,9 +9,9 @@ public class EnderecoClinica {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "dentista_id", nullable = false)
+    @OneToOne(mappedBy = "endereco", cascade = CascadeType.ALL)
     private Dentista dentista;
+
 
     private String logradouro;
     private String numero;
