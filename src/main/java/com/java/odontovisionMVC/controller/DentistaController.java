@@ -31,6 +31,8 @@ public class DentistaController {
 
     @PostMapping("/salvar")
     public String salvarDentista(@ModelAttribute Dentista dentista) {
+        boolean isNovo = (dentista.getId() == null); // Se ID for nulo, é um novo dentista
+
         // Primeiro, salva o dentista
         Dentista dentistaSalvo = dentistaService.salvar(dentista);
 
@@ -40,7 +42,13 @@ public class DentistaController {
             dentistaService.salvar(dentistaSalvo);
         }
 
-        return "redirect:/dentistas/cadastrado";
+        // Se for um novo cadastro, redireciona para a página de sucesso
+        if (isNovo) {
+            return "redirect:/dentistas/cadastrado";
+        } else {
+            // Se for uma edição, redireciona para a lista de dentistas
+            return "redirect:/dentistas";
+        }
     }
 
 

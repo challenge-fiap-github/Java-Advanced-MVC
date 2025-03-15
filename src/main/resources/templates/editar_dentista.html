@@ -18,13 +18,26 @@
     .cancel { display: block; text-align: center; margin-top: 10px; color: #555; text-decoration: none; }
     .cancel:hover { text-decoration: underline; }
   </style>
+  <script>
+    function mostrarPopup(event) {
+      event.preventDefault(); // Impede o envio imediato do formulário
+
+      // Exibe um pop-up de confirmação
+      alert("Dentista editado com sucesso!");
+
+      // Aguarda um pequeno delay para que o usuário veja o pop-up e então redireciona
+      setTimeout(function() {
+        document.getElementById("editForm").submit();
+      }, 500);
+    }
+  </script>
 </head>
 <body>
 
 <div class="container">
   <h2>Editar Dentista</h2>
 
-  <form th:action="@{/dentistas/salvar}" th:object="${dentista}" method="post">
+  <form id="editForm" th:action="@{/dentistas/salvar}" th:object="${dentista}" method="post">
     <input type="hidden" th:field="*{id}"/>
 
     <label class="required">Nome:</label>
@@ -69,7 +82,7 @@
       <input type="text" th:field="*{endereco.complemento}"/>
     </div>
 
-    <button type="submit">Salvar Alterações</button>
+    <button type="submit" onclick="mostrarPopup(event)">Salvar Alterações</button>
     <a th:href="@{/dentistas}" class="cancel">Cancelar</a>
   </form>
 </div>

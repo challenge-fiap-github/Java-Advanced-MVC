@@ -32,16 +32,29 @@ public class UsuarioController {
     // Salvar um novo usuário e redirecionar para a página de confirmação
     @PostMapping("/salvar")
     public String salvarUsuario(@ModelAttribute Usuario usuario) {
-        // Primeiro, salva o usuario
+        boolean isNovo = (usuario.getId() == null); // Se ID for nulo, é um novo usuário
+
+        // Define uma senha temporária se não estiver presente
+        if (usuario.getSenha() == null || usuario.getSenha().isEmpty()) {
+            usuario.setSenha("12345"); // Senha padrão (recomendado criptografar!)
+        }
+
+        // Primeiro, salva o usuário
         Usuario usuarioSalvo = usuarioService.salvar(usuario);
 
-        // Agora, associa o endereço ao usuario e salva novamente
+        // Agora, associa o endereço ao usuário e salva novamente
         if (usuario.getEndereco() != null) {
             usuario.getEndereco().setUsuario(usuarioSalvo);
             usuarioService.salvar(usuarioSalvo);
         }
 
-        return "redirect:/usuarios/cadastrado";
+        // Se for um novo cadastro, redireciona para a página de sucesso
+        if (isNovo) {
+            return "redirect:/usuarios/cadastrado";
+        } else {
+            // Se for uma edição, redireciona para a lista de usuários
+            return "redirect:/usuarios";
+        }
     }
 
 
