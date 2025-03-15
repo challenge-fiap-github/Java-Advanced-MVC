@@ -45,16 +45,11 @@ public class UsuarioController {
         // Agora, associa o endereço ao usuário e salva novamente
         if (usuario.getEndereco() != null) {
             usuario.getEndereco().setUsuario(usuarioSalvo);
-            usuarioService.salvar(usuarioSalvo);
+            usuarioService.salvar(usuarioSalvo); // Salva novamente com endereço vinculado
         }
 
         // Se for um novo cadastro, redireciona para a página de sucesso
-        if (isNovo) {
-            return "redirect:/usuarios/cadastrado";
-        } else {
-            // Se for uma edição, redireciona para a lista de usuários
-            return "redirect:/usuarios";
-        }
+        return isNovo ? "redirect:/usuarios/cadastrado" : "redirect:/usuarios";
     }
 
 
