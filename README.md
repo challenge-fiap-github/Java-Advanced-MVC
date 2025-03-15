@@ -22,45 +22,68 @@ A solução envolve:
 ---
 
 ## 🛠 Tecnologias Utilizadas
-- **Back-end:** Java + Spring Boot (MVC, JPA, Thymeleaf)
-- **Banco de Dados:** Oracle
-- **Front-end Web:** HTML + CSS + Thymeleaf
-- **Mobile App:** React Native
-- **Análise de Dados:** Python (Random Forest)
-- **Plataforma Web para Dentistas:** C#
+
+### 🔹 **Back-end:**
+- Java 17
+- Spring Boot 3.4.3 (MVC, JPA, Thymeleaf)
+
+### 🔹 **Banco de Dados:**
+- Oracle Database
+
+### 🔹 **Front-end Web:**
+- HTML + CSS + Thymeleaf (para administração cadastrar dentistas e pacientes)
+
+### 🔹 **Aplicativo Móvel:**
+- React Native + TypeScript
+
+### 🔹 **Análise de Dados e IA:**
+- Python (Random Forest)
+
+### 🔹 **Plataforma Web Dentistas:**
+- C# .NET Core
 
 ---
 
 ## 🗂 Arquitetura do Sistema
 ### 🔹 Diagrama UML
-*(Adicione aqui uma imagem do diagrama UML do banco de dados.)*
+![img.png](img.png)
 
-### 🔹 Fluxo do Sistema
-1. **Cadastro de Pacientes e Dentistas**
-    - O paciente se cadastra pelo app e agenda a primeira consulta.
-    - O dentista se cadastra via plataforma web e registra consultas.
+### 🔹 Diagrama UML Java
+![img_1.png](img_1.png)
 
-2. **Acompanhamento e Recompensas**
-    - O paciente segue um **checklist diário de higiene**.
-    - O dentista avalia a higiene do paciente e dobra os pontos se necessário.
+#### Link para o Vídeo:
 
-3. **Detecção de Fraudes com IA**
-    - Após cada consulta, a IA **analisa padrões suspeitos** e gera alertas para a Odontoprev.
-
-4. **Troca de Pontos e Recompensas**
-    - No futuro, os pontos poderão ser **convertidos em benefícios na Livelo**.
-
----
 
 ## 📜 Instalação e Configuração
 ### ✅ Pré-requisitos
 - JDK 17+
 - Maven 3.8+
-- Banco de Dados Oracle (configurar credenciais no `application.properties`)
-- Node.js (para rodar o app React Native)
+- Banco de Dados Oracle (`application.properties`) - já configurado
 
 ### 🔧 Passos para rodar o projeto
-#### 1️⃣ Clonar o repositório
+#### 1. Clonar o repositório
 ```sh
 git clone https://github.com/SEU-USUARIO/odontovision.git
 cd odontovision
+```
+#### 2. Executar os comandos Maven
+```sh
+mvn clean
+mvn clean install
+mvn spring-boot:run
+```
+---
+
+### 📌 Desenvolvimento
+
+#### O projeto é dividido em módulos independentes que se comunicam por meio de APIs REST:
+
+•	Spring Boot (Backend Principal): Gerencia usuários, pontuação, consultas e regras de gamificação.
+
+•	React Native (Mobile App): Interface para pacientes acompanharem sua pontuação e agendarem consultas.
+
+•	C# .NET (Plataforma Web Dentistas): Interface para dentistas registrarem diagnósticos.
+
+•	Python (IA): Analisa padrões suspeitos para identificar fraudes
+
+---
