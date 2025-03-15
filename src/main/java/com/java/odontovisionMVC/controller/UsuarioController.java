@@ -1,7 +1,6 @@
 package com.java.odontovisionMVC.controller;
 
 import com.java.odontovisionMVC.model.Usuario;
-import com.java.odontovisionMVC.model.EnderecoUsuario;
 import com.java.odontovisionMVC.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
