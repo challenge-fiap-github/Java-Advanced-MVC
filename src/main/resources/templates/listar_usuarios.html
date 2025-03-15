@@ -5,20 +5,114 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lista de Usuários</title>
   <style>
-    body { font-family: Arial, sans-serif; background: #f8f9fa; padding: 20px; }
-    .container { max-width: 1200px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); }
-    .buttons { display: flex; justify-content: space-between; margin-bottom: 15px; }
-    .btn { padding: 10px; border: none; cursor: pointer; border-radius: 5px; text-decoration: none; font-size: 16px; text-align: center; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8f9fa;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .btn {
+      padding: 10px;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      text-decoration: none;
+      font-size: 16px;
+      text-align: center;
+      white-space: nowrap;
+    }
+
     .add { background: #007BFF; color: white; }
     .back { background: #6c757d; color: white; }
-    .search-box { margin-bottom: 15px; }
-    input[type="text"] { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 16px; }
-    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-    th, td { border: 1px solid #ddd; padding: 10px; text-align: left; font-size: 14px; }
-    th { background: #007BFF; color: white; }
-    .actions { display: flex; gap: 10px; }
-    .edit { background: #28a745; color: white; text-decoration: none; padding: 5px 10px; border-radius: 5px; }
-    .delete { background: #dc3545; color: white; text-decoration: none; padding: 5px 10px; border-radius: 5px; }
+
+    .search-box {
+      margin-bottom: 15px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    .table-container {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      min-width: 700px;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: left;
+      font-size: 14px;
+    }
+
+    th {
+      background: #007BFF;
+      color: white;
+    }
+
+    .actions {
+      display: flex;
+      gap: 5px;
+    }
+
+    .edit, .delete {
+      text-decoration: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    .edit { background: #28a745; color: white; }
+    .delete { background: #dc3545; color: white; }
+
+    /* Responsividade */
+    @media (max-width: 768px) {
+      .buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .btn {
+        width: 100%;
+        text-align: center;
+      }
+
+      table {
+        font-size: 12px;
+      }
+
+      .actions {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
   </style>
 </head>
 <body>
@@ -35,33 +129,35 @@
     <input type="text" id="searchInput" onkeyup="buscarUsuario()" placeholder="🔍 Buscar usuário...">
   </div>
 
-  <table id="usuariosTable">
-    <thead>
-    <tr>
-      <th>Nome</th>
-      <th>Email</th>
-      <th>CPF</th>
-      <th>Data de Nascimento</th>
-      <th>Telefone</th>
-      <th>Endereço</th>
-      <th>Ações</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="usuario : ${usuarios}">
-      <td th:text="${usuario.nome}"></td>
-      <td th:text="${usuario.email}"></td>
-      <td th:text="${usuario.cpf}"></td>
-      <td th:text="${usuario.dataNascimento}"></td>
-      <td th:text="${usuario.telefone}"></td>
-      <td th:text="${usuario.endereco}"></td>
-      <td class="actions">
-        <a th:href="@{/usuarios/editar/{id}(id=${usuario.id})}" class="edit">Editar</a>
-        <a th:href="@{/usuarios/confirmar_exclusao/{id}(id=${usuario.id})}" class="delete">Excluir</a>
-      </td>
-    </tr>
-    </tbody>
-  </table>
+  <div class="table-container">
+    <table id="usuariosTable">
+      <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Email</th>
+        <th>CPF</th>
+        <th>Data de Nascimento</th>
+        <th>Telefone</th>
+        <th>Endereço</th>
+        <th>Ações</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="usuario : ${usuarios}">
+        <td th:text="${usuario.nome}"></td>
+        <td th:text="${usuario.email}"></td>
+        <td th:text="${usuario.cpf}"></td>
+        <td th:text="${usuario.dataNascimento}"></td>
+        <td th:text="${usuario.telefone}"></td>
+        <td th:text="${usuario.endereco.logradouro + ', ' + usuario.endereco.numero + ' - ' + usuario.endereco.cidade + ' - ' + usuario.endereco.estado}"></td>
+        <td class="actions">
+          <a th:href="@{/usuarios/editar/{id}(id=${usuario.id})}" class="edit">Editar</a>
+          <a th:href="@{/usuarios/confirmar_exclusao/{id}(id=${usuario.id})}" class="delete">Excluir</a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
 
 <script>
