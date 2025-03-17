@@ -20,6 +20,28 @@
     .edit { background: #28a745; color: white; text-decoration: none; padding: 5px 10px; border-radius: 5px; }
     .delete { background: #dc3545; color: white; text-decoration: none; padding: 5px 10px; border-radius: 5px; }
   </style>
+  <script>
+    function filtrarDentistas() {
+      let input = document.getElementById("buscaDentista").value.toLowerCase();
+      let rows = document.querySelectorAll("#dentistasTable tbody tr");
+
+      rows.forEach(row => {
+        let nome = row.cells[0].textContent.toLowerCase();
+        let email = row.cells[1].textContent.toLowerCase();
+        let telefone = row.cells[2].textContent.toLowerCase();
+        let cro = row.cells[3].textContent.toLowerCase();
+        let especialidade = row.cells[4].textContent.toLowerCase();
+        let endereco = row.cells[5].textContent.toLowerCase();
+
+        if (nome.includes(input) || email.includes(input) || telefone.includes(input) ||
+                cro.includes(input) || especialidade.includes(input) || endereco.includes(input)) {
+          row.style.display = "";
+        } else {
+          row.style.display = "none";
+        }
+      });
+    }
+  </script>
 </head>
 <body>
 
@@ -28,6 +50,10 @@
   <a th:href="@{/dentistas/novo}" class="btn add">+ Cadastrar Novo Dentista</a>
 </div>
 
+<!-- Barra de busca -->
+<div class="search-box">
+  <input type="text" id="buscaDentista" placeholder="🔍 Buscar dentista..." onkeyup="filtrarDentistas()">
+</div>
 
 <table id="dentistasTable">
   <thead>
