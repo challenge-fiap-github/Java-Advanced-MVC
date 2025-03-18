@@ -22,20 +22,35 @@ Este projeto é uma aplicação **Java MVC** desenvolvida com **Spring Boot**, c
 ## 📂 **Estrutura do Projeto**
 ```
 📦 odontovisionMVC
+ ┣ 📂 .idea
+ ┣ 📂 .mvn
  ┣ 📂 src
  ┃ ┣ 📂 main
- ┃ ┃ ┣ 📂 java/com/odontovision
- ┃ ┃ ┃ ┣ 📜 controllers/
- ┃ ┃ ┃ ┣ 📜 models/
- ┃ ┃ ┃ ┣ 📜 services/
- ┃ ┃ ┃ ┣ 📜 repositories/
- ┃ ┃ ┃ ┣ 📜 Application.java
+ ┃ ┃ ┣ 📂 java/com/java/odontovisionMVC
+ ┃ ┃ ┃ ┣ 📂 controller
+ ┃ ┃ ┃ ┣ 📂 model
+ ┃ ┃ ┃ ┣ 📂 repository
+ ┃ ┃ ┃ ┣ 📂 service
+ ┃ ┃ ┃ ┣ 📜 OdontovisionMvcApplication.java
  ┃ ┃ ┣ 📂 resources
+ ┃ ┃ ┃ ┣ 📂 static
+ ┃ ┃ ┃ ┣ 📂 templates
  ┃ ┃ ┃ ┣ 📜 application.properties
  ┃ ┣ 📂 test
- ┣ 📜 Dockerfile
+ ┣ 📂 target
+ ┣ 📜 .gitattributes
+ ┣ 📜 .gitignore
+ ┣ 📜 DevOpsREADME.md
+ ┣ 📜 HELP.md
+ ┣ 📜 mvnw
+ ┣ 📜 mvnw.cmd
  ┣ 📜 pom.xml
  ┣ 📜 README.md
+ ┣ 📜 img.png
+ ┣ 📜 img_1.png
+ ┣ 📜 img_2.png
+ ┣ 📂 External Libraries
+ ┣ 📂 Scratches and Consoles
 ```
 
 ---
