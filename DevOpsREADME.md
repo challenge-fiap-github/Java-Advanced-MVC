@@ -59,7 +59,6 @@ Este projeto é uma aplicação **Java MVC** desenvolvida com **Spring Boot**, c
 Antes de iniciar, certifique-se de ter instalado:
 - **Java 17** ou superior
 - **Maven 3+**
-- **Docker** (se for usar ACR/ACI)
 - **Conta na Azure for Students**
 - **Azure CLI** instalada (`az --version`)
 
