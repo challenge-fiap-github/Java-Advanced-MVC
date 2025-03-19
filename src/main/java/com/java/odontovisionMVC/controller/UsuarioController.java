@@ -39,9 +39,17 @@ public class UsuarioController {
     public String salvarUsuario(@ModelAttribute Usuario usuario) {
         boolean isNovo = (usuario.getId() == null);
 
-        // Define uma senha temporária se não estiver presente
-        if (isNovo && (usuario.getSenha() == null || usuario.getSenha().isEmpty())) {
-            usuario.setSenha("12345"); // Senha padrão (recomendado criptografar!)
+        if (isNovo) {
+            // Se for um novo cadastro e a senha não estiver definida, atribuir uma senha padrão
+            if (usuario.getSenha() == null || usuario.getSenha().isEmpty()) {
+                usuario.setSenha("12345"); // Senha padrão (apenas para testes)
+            }
+        } else {
+            // Se for edição, manter a senha original
+            Usuario usuarioExistente = usuarioService.buscarPorId(usuario.getId()).orElse(null);
+            if (usuarioExistente != null) {
+                usuario.setSenha(usuarioExistente.getSenha()); // Mantém a senha anterior
+            }
         }
 
         // Salva o usuário e seu endereço se estiver presente
@@ -54,6 +62,7 @@ public class UsuarioController {
         // Redireciona de acordo com a ação (novo cadastro ou edição)
         return isNovo ? "redirect:/usuarios/cadastrado" : "redirect:/usuarios";
     }
+
 
     // Página de sucesso após cadastro
     @GetMapping("/cadastrado")
