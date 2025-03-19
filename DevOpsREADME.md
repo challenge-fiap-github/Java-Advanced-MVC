@@ -82,28 +82,26 @@ Antes de iniciar, certifique-se de ter instalado:
 ---
 
 ### 🔹 **2. Criar e Configurar o Web App**
-1. Configure o App Service no Azure:
+1. Configuração usada para o App Service no Azure:
    ```bash
    mvn azure-webapp:config
    ```
-    - Escolha um nome único para o Web App
-    - Selecione **Linux** como sistema operacional
-    - Escolha **B1** como plano de hospedagem (grátis não suporta Linux)
-    - Escolha **Java SE 17**
+    - **Linux** como sistema operacional
+    - **B1** como plano de hospedagem
+    - **Java SE 17**
 
 ---
 
 ### 🔹 **3. Realizar o Deploy**
-Após configurar, rode os comandos abaixo para fazer o deploy:
+Comandos abaixo usados para fazer o deploy:
 
 ```bash
 mvn clean package
 mvn azure-webapp:deploy
 ```
 
-🔹 **Ao final do processo**, o terminal exibirá a **URL pública** do seu Web App:  
-➡️ `https://<seu-app-name>.azurewebsites.net/`
-
+🔹 **URL pública** do Web App:  
+➡️ https://odontovisionmvc-java-rm553568.azurewebsites.net
 ---
 
 ## 📚 **Referências**
