@@ -92,3 +92,25 @@ Senha: admin123
 •	Python (IA): Analisa padrões suspeitos para identificar fraudes
 
 ---
+### Exemplos para Teste
+
+### **Dentista**
+- **Nome:** Dra. Camila Souza
+- **Email:** camila.souza@odontovision.com
+- **Telefone:** (85) 99788-2233
+- **CRO:** 456789-CE
+- **Especialidade:** Periodontia
+- **Endereço:** Rua das Dunas, 789, Fortaleza - CE
+- **CEP:** 60115-275
+
+---
+
+### **Usuário**
+- **Nome:** Marcos Vinícius Lima
+- **Email:** marcos.lima@email.com
+- **CPF:** 369.258.147-99
+- **Data de Nascimento:** 1995-11-03
+- **Telefone:** (48) 99944-1122
+- **Endereço:** Avenida Beira-Mar, 150, Florianópolis - SC
+- **CEP:** 88015-200
+
