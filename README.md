@@ -72,6 +72,10 @@ mvn clean
 mvn clean install
 mvn spring-boot:run
 ```
+#### Acesso:
+Login: admin123
+
+senha: admin123
 ---
 
 ### 📌 Desenvolvimento
