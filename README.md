@@ -51,7 +51,7 @@ A solução envolve:
 ### 🔹 Diagrama UML Java
 ![img_1.png](img_1.png)
 
-#### Link para o Vídeo:
+### Link para o Vídeo: https://youtu.be/RctTLVTSYdo
 
 
 ## 📜 Instalação e Configuração
