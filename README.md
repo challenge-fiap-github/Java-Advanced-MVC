@@ -75,7 +75,8 @@ mvn spring-boot:run
 #### Acesso:
 Login: admin123
 
-senha: admin123
+Senha: admin123
+
 ---
 
 ### 📌 Desenvolvimento
