@@ -4,7 +4,7 @@
 Este projeto é uma aplicação **Java MVC** desenvolvida com **Spring Boot**, conectada ao banco de dados **Oracle** na **Azure**. O objetivo é realizar cadastro de dentistas e pacientes (usuarios), para isso foi criado uma view em Thymeleaft para que o administrador do sistema possa fazer a gestão.
 
 #### Link do Repositório: https://github.com/challenge-fiap-github/Java-Advanced-MVC
-#### Link do Vídeo: 
+#### Link do Vídeo: https://youtu.be/mnLcVI8NGOc 
 
 ## 👥 Equipe
 
@@ -18,6 +18,10 @@ Este projeto é uma aplicação **Java MVC** desenvolvida com **Spring Boot**, c
 ### 🔹 Diagrama UML - Banco de Dados Oracle
 ![img_2.png](img_2.png)
 ---
+### Acesso VM
+usuario: adminwin
+
+senha: Fiap@2tds2025
 
 ## 📂 **Estrutura do Projeto**
 ```
