@@ -44,8 +44,10 @@ A solução envolve:
 
 ---
 ### Link para o Vídeo: https://youtu.be/RctTLVTSYdo
-Caso haja alguma dúvida sobre a persistência de dados no Banco, segue o vídeo feito para DevOps da aplicação funcionando na nuvem com o banco 
+Caso haja alguma dúvida sobre a persistência de dados no Banco, segue o vídeo feito para DevOps da aplicação funcionando na nuvem com o banco Oracle
+
 #### Link do Vídeo: https://youtu.be/mnLcVI8NGOc
+
 ---
 ## 🗂 Arquitetura do Sistema
 ### 🔹 Diagrama UML
