@@ -48,6 +48,10 @@ Caso haja alguma dúvida sobre a persistência de dados no Banco, segue o vídeo
 
 #### Link do Vídeo: https://youtu.be/mnLcVI8NGOc
 
+#### Infelizmente o YouTube excluiu o vídeo de DevOps depois da entrega do Portal do Aluno, mostrei todas as evidências para o professor, coloquei o vídeo no drive, portanto caso queira assistir esse é o link certo: 
+
+https://drive.google.com/drive/folders/12CTa83-surFr0Aiwn206EILItv5Rnw5s 
+
 ---
 ## 🗂 Arquitetura do Sistema
 ### 🔹 Diagrama UML

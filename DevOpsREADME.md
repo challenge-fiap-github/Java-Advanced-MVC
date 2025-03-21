@@ -6,6 +6,11 @@ Este projeto é uma aplicação **Java MVC** desenvolvida com **Spring Boot**, c
 #### Link do Repositório: https://github.com/challenge-fiap-github/Java-Advanced-MVC
 #### Link do Vídeo: https://youtu.be/mnLcVI8NGOc 
 
+#### Infelizmente o YouTube excluiu o vídeo de DevOps depois da entrega do Portal do Aluno, mostrei todas as evidências para o professor, coloquei o vídeo no drive, portanto caso queira assistir esse é o link certo:
+
+https://drive.google.com/drive/folders/12CTa83-surFr0Aiwn206EILItv5Rnw5s
+
+
 ## 👥 Equipe
 
 | Matrícula  | Nome                              |
