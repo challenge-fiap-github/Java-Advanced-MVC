@@ -10,8 +10,10 @@ public class EnderecoUsuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // Associação bidirecional com Usuario
+    // Um endereço pertence a exatamente um usuário
     @OneToOne
-    @JoinColumn(name = "usuario_id", nullable = false)
+    @JoinColumn(name = "usuario_id", nullable = false) // Chave estrangeira obrigatória
     private Usuario usuario;
 
     @Column(nullable = false)
@@ -29,70 +31,39 @@ public class EnderecoUsuario {
     @Column(nullable = false)
     private String cep;
 
-    private String complemento;
+    private String complemento; // Campo opcional
 
-    // Getters e Setters
-    public Long getId() {
-        return id;
-    }
+    // Construtor padrão obrigatório para JPA
+    public EnderecoUsuario() {}
 
-    public void setId(Long id) {
+    // Construtor com argumentos, utilizado pelo Mapper e testes
+    public EnderecoUsuario(Long id, String logradouro, String numero, String cidade, String estado, String cep, String complemento) {
         this.id = id;
-    }
-
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
-    public String getLogradouro() {
-        return logradouro;
-    }
-
-    public void setLogradouro(String logradouro) {
         this.logradouro = logradouro;
-    }
-
-    public String getNumero() {
-        return numero;
-    }
-
-    public void setNumero(String numero) {
         this.numero = numero;
-    }
-
-    public String getCidade() {
-        return cidade;
-    }
-
-    public void setCidade(String cidade) {
         this.cidade = cidade;
-    }
-
-    public String getEstado() {
-        return estado;
-    }
-
-    public void setEstado(String estado) {
         this.estado = estado;
-    }
-
-    public String getCep() {
-        return cep;
-    }
-
-    public void setCep(String cep) {
         this.cep = cep;
-    }
-
-    public String getComplemento() {
-        return complemento;
-    }
-
-    public void setComplemento(String complemento) {
         this.complemento = complemento;
     }
+
+    // Getters (acessores)
+    public Long getId() { return id; }
+    public Usuario getUsuario() { return usuario; }
+    public String getLogradouro() { return logradouro; }
+    public String getNumero() { return numero; }
+    public String getCidade() { return cidade; }
+    public String getEstado() { return estado; }
+    public String getCep() { return cep; }
+    public String getComplemento() { return complemento; }
+
+    // Setters (modificadores)
+    public void setId(Long id) { this.id = id; }
+    public void setUsuario(Usuario usuario) { this.usuario = usuario; }
+    public void setLogradouro(String logradouro) { this.logradouro = logradouro; }
+    public void setNumero(String numero) { this.numero = numero; }
+    public void setCidade(String cidade) { this.cidade = cidade; }
+    public void setEstado(String estado) { this.estado = estado; }
+    public void setCep(String cep) { this.cep = cep; }
+    public void setComplemento(String complemento) { this.complemento = complemento; }
 }

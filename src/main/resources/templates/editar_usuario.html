@@ -20,21 +20,19 @@
   </style>
 
   <script>
-    function exibirPopup() {
+    function mostrarPopup(event) {
+      event.preventDefault(); // Impede o envio imediato
       alert("Usuário editado com sucesso!");
-      setTimeout(function() {
-        window.location.href = "/usuarios"; // Redireciona para a listagem após o alerta
-      }, 100); // Tempo de espera antes do redirecionamento
+      document.getElementById("editForm").submit();
     }
   </script>
-
 </head>
 <body>
 
 <div class="container">
   <h2>Editar Usuário</h2>
 
-  <form th:action="@{/usuarios/salvar}" th:object="${usuario}" method="post" onsubmit="exibirPopup()">
+  <form id="editForm" th:action="@{/usuarios/salvar}" th:object="${usuario}" method="post">
     <input type="hidden" th:field="*{id}"/>
 
     <label class="required">Nome:</label>
@@ -78,10 +76,9 @@
       <input type="text" th:field="*{endereco.complemento}"/>
     </div>
 
-    <button type="submit">Salvar Alterações</button>
+    <button type="submit" onclick="mostrarPopup(event)">Salvar Alterações</button>
     <a th:href="@{/usuarios}" class="cancel">Cancelar</a>
   </form>
-
 </div>
 
 </body>
