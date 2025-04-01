@@ -2,6 +2,10 @@ package com.java.odontovisionMVC.model;
 
 import jakarta.persistence.*;
 
+/**
+ * Entidade JPA que representa o endereço de uma clínica odontológica.
+ * Está associada diretamente a um dentista (relacionamento 1:1).
+ */
 @Entity
 @Table(name = "endereco_clinica")
 public class EnderecoClinica {
@@ -10,10 +14,16 @@ public class EnderecoClinica {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    /**
+     * Relacionamento 1:1 com a entidade Dentista.
+     * A coluna 'dentista_id' será usada como chave estrangeira.
+     * A anotação 'nullable = false' garante integridade referencial no banco de dados.
+     */
     @OneToOne
     @JoinColumn(name = "dentista_id", nullable = false)
     private Dentista dentista;
 
+    // Atributos básicos do endereço da clínica
     @Column(nullable = false)
     private String logradouro;
 
@@ -31,68 +41,40 @@ public class EnderecoClinica {
 
     private String complemento;
 
-    // Getters e Setters
-    public Long getId() {
-        return id;
-    }
+    /**
+     * Construtor padrão necessário para JPA.
+     */
+    public EnderecoClinica() {}
 
-    public void setId(Long id) {
+    /**
+     * Construtor completo com ID.
+     * Esse construtor é utilizado em mapeamentos como o Mapper para facilitar a conversão de DTOs para entidades.
+     */
+    public EnderecoClinica(Long id, String logradouro, String numero, String cidade, String estado, String cep, String complemento) {
         this.id = id;
+        this.logradouro = logradouro;
+        this.numero = numero;
+        this.cidade = cidade;
+        this.estado = estado;
+        this.cep = cep;
+        this.complemento = complemento;
     }
 
-    public Dentista getDentista() {
-        return dentista;
-    }
+    // Getters
+    public Long getId() { return id; }
+    public String getLogradouro() { return logradouro; }
+    public String getNumero() { return numero; }
+    public String getCidade() { return cidade; }
+    public String getEstado() { return estado; }
+    public String getCep() { return cep; }
+    public String getComplemento() { return complemento; }
+    public Dentista getDentista() { return dentista; }
 
+    /**
+     * Define o dentista vinculado a este endereço.
+     * Utilizado para manter a integridade do relacionamento bidirecional.
+     */
     public void setDentista(Dentista dentista) {
         this.dentista = dentista;
-    }
-
-    public String getLogradouro() {
-        return logradouro;
-    }
-
-    public void setLogradouro(String logradouro) {
-        this.logradouro = logradouro;
-    }
-
-    public String getNumero() {
-        return numero;
-    }
-
-    public void setNumero(String numero) {
-        this.numero = numero;
-    }
-
-    public String getCidade() {
-        return cidade;
-    }
-
-    public void setCidade(String cidade) {
-        this.cidade = cidade;
-    }
-
-    public String getEstado() {
-        return estado;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
-
-    public String getCep() {
-        return cep;
-    }
-
-    public void setCep(String cep) {
-        this.cep = cep;
-    }
-
-    public String getComplemento() {
-        return complemento;
-    }
-
-    public void setComplemento(String complemento) {
-        this.complemento = complemento;
     }
 }

@@ -5,22 +5,95 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lista de Dentistas</title>
   <style>
-    body { font-family: Arial, sans-serif; background: #f8f9fa; padding: 20px; }
-    .container { max-width: 1200px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); }
-    .buttons { display: flex; justify-content: space-between; margin-bottom: 15px; }
-    .btn { padding: 10px; border: none; cursor: pointer; border-radius: 5px; text-decoration: none; font-size: 16px; text-align: center; }
+    /* Estilo da tabela e layout */
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8f9fa;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+    }
+
+    .btn {
+      padding: 10px;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      text-decoration: none;
+      font-size: 16px;
+      text-align: center;
+    }
+
     .add { background: #007BFF; color: white; }
     .back { background: #6c757d; color: white; }
-    .search-box { margin-bottom: 15px; }
-    input[type="text"] { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 16px; }
-    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-    th, td { border: 1px solid #ddd; padding: 10px; text-align: left; font-size: 14px; }
-    th { background: #007BFF; color: white; }
-    .actions { display: flex; gap: 10px; }
-    .edit { background: #28a745; color: white; text-decoration: none; padding: 5px 10px; border-radius: 5px; }
-    .delete { background: #dc3545; color: white; text-decoration: none; padding: 5px 10px; border-radius: 5px; }
+
+    .search-box {
+      margin-bottom: 15px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: left;
+      font-size: 14px;
+    }
+
+    th {
+      background: #007BFF;
+      color: white;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .edit {
+      background: #28a745;
+      color: white;
+      text-decoration: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+    }
+
+    .delete {
+      background: #dc3545;
+      color: white;
+      text-decoration: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+    }
   </style>
+
   <script>
+    // Função de filtro de busca na tabela
     function filtrarDentistas() {
       let input = document.getElementById("buscaDentista").value.toLowerCase();
       let rows = document.querySelectorAll("#dentistasTable tbody tr");
@@ -33,6 +106,7 @@
         let especialidade = row.cells[4].textContent.toLowerCase();
         let endereco = row.cells[5].textContent.toLowerCase();
 
+        // Se algum dos campos conter o texto da busca, mantém a linha visível
         if (nome.includes(input) || email.includes(input) || telefone.includes(input) ||
                 cro.includes(input) || especialidade.includes(input) || endereco.includes(input)) {
           row.style.display = "";
@@ -45,16 +119,18 @@
 </head>
 <body>
 
+<!-- Botões de navegação -->
 <div class="buttons">
   <a th:href="@{/painel}" class="btn back">🔙 Voltar</a>
   <a th:href="@{/dentistas/novo}" class="btn add">+ Cadastrar Novo Dentista</a>
 </div>
 
-<!-- Barra de busca -->
+<!-- Campo de busca -->
 <div class="search-box">
   <input type="text" id="buscaDentista" placeholder="🔍 Buscar dentista..." onkeyup="filtrarDentistas()">
 </div>
 
+<!-- Tabela com dados dos dentistas -->
 <table id="dentistasTable">
   <thead>
   <tr>
@@ -68,6 +144,7 @@
   </tr>
   </thead>
   <tbody>
+  <!-- Iteração sobre a lista de dentistas vinda do controller -->
   <tr th:each="dentista : ${dentistas}">
     <td th:text="${dentista.nome}"></td>
     <td th:text="${dentista.email}"></td>

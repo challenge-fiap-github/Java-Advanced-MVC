@@ -1,87 +1,78 @@
 package com.java.odontovisionMVC.controller;
 
-import com.java.odontovisionMVC.model.Dentista;
-import com.java.odontovisionMVC.model.EnderecoClinica;
+import com.java.odontovisionMVC.dto.DentistaDto;
 import com.java.odontovisionMVC.service.DentistaService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/dentistas")
+@RequestMapping("/dentistas") // Define que todas as rotas da classe começarão com /dentistas
 public class DentistaController {
 
-    @Autowired
-    private DentistaService dentistaService;
+    private final DentistaService dentistaService;
 
-    // Listar dentistas
-    @GetMapping
-    public String listarDentistas(Model model) {
-        model.addAttribute("dentistas", dentistaService.listarTodos());
-        return "listar_dentistas"; // Página de listagem
+    // Injeta a dependência via construtor (boas práticas de injeção de dependência)
+    public DentistaController(DentistaService dentistaService) {
+        this.dentistaService = dentistaService;
     }
 
-    // Exibir formulário para adicionar um novo dentista
+    @GetMapping
+    public String listarDentistas(Model model) {
+        // Busca todos os dentistas e adiciona ao modelo para renderizar na view "listar_dentistas"
+        model.addAttribute("dentistas", dentistaService.listarTodos());
+        return "listar_dentistas";
+    }
+
     @GetMapping("/novo")
     public String novoDentista(Model model) {
-        model.addAttribute("dentista", new Dentista());
-        return "dentista_form"; // Página do formulário de cadastro
+        // Cria um DentistaDto vazio (usando método de fábrica `vazio()`) e envia para o formulário
+        model.addAttribute("dentista", DentistaDto.vazio());
+        return "dentista_form";
     }
 
     @PostMapping("/salvar")
-    public String salvarDentista(@ModelAttribute Dentista dentista) {
-        boolean isNovo = (dentista.getId() == null); // Se ID for nulo, é um novo dentista
+    public String salvarDentista(@ModelAttribute DentistaDto dentistaDto) {
+        // Verifica se é um novo dentista baseado na ausência de ID
+        boolean isNovo = (dentistaDto.getId() == null);
 
-        // Primeiro, salva o dentista
-        Dentista dentistaSalvo = dentistaService.salvar(dentista);
+        // Salva o dentista e seu endereço via service
+        dentistaService.salvar(dentistaDto);
 
-        // Agora, associa o endereço ao dentista e salva novamente
-        if (dentista.getEndereco() != null) {
-            dentista.getEndereco().setDentista(dentistaSalvo);
-            dentistaService.salvar(dentistaSalvo);
-        }
-
-        // Se for um novo cadastro, redireciona para a página de sucesso
-        if (isNovo) {
-            return "redirect:/dentistas/cadastrado";
-        } else {
-            // Se for uma edição, redireciona para a lista de dentistas
-            return "redirect:/dentistas";
-        }
+        // Redireciona para uma rota diferente dependendo se é criação ou edição
+        return isNovo ? "redirect:/dentistas/cadastrado" : "redirect:/dentistas";
     }
 
-
-    // Página de dentista cadastrado com sucesso
     @GetMapping("/cadastrado")
     public String dentistaCadastrado() {
-        return "dentista_cadastrado"; // Página de confirmação do cadastro
+        // View de confirmação após cadastro
+        return "dentista_cadastrado";
     }
 
-    // Exibir formulário para editar um dentista existente
     @GetMapping("/editar/{id}")
     public String editarDentista(@PathVariable Long id, Model model) {
-        model.addAttribute("dentista", dentistaService.buscarPorId(id).orElse(null));
+        // Busca o dentista pelo ID e envia para view de edição
+        model.addAttribute("dentista", dentistaService.buscarPorId(id));
         return "editar_dentista";
     }
 
-    // Redirecionar para a página de confirmação de exclusão
     @GetMapping("/confirmar_exclusao/{id}")
     public String confirmarExclusao(@PathVariable Long id, Model model) {
-        model.addAttribute("dentista", dentistaService.buscarPorId(id).orElse(null));
-        return "confirmar_exclusao_dentista"; // Página de confirmação de exclusão
+        // Busca dentista e renderiza tela de confirmação de exclusão
+        model.addAttribute("dentista", dentistaService.buscarPorId(id));
+        return "confirmar_exclusao_dentista";
     }
 
-    // Excluir dentista e redirecionar para a lista de dentistas
     @GetMapping("/excluir/{id}")
     public String excluirDentista(@PathVariable Long id) {
+        // Deleta o dentista e redireciona para a listagem
         dentistaService.excluir(id);
         return "redirect:/dentistas";
     }
 
-    // Página do painel administrativo
     @GetMapping("/painel")
     public String painelAdmin() {
+        // Rota opcional para uma tela administrativa
         return "painel_admin";
     }
 }
