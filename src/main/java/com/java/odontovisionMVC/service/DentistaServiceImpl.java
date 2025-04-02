@@ -15,7 +15,7 @@ import java.util.List;
  * interagindo com o repositório e utilizando o mapper para conversão entre DTOs e entidades.
  */
 @Service
-public class DentistaServiceImpl implements DentistaService {
+class DentistaServiceImpl implements DentistaService {
 
     private final DentistaRepository dentistaRepository;
 

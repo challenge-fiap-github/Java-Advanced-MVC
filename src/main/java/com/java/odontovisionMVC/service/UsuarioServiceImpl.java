@@ -15,7 +15,7 @@ import java.util.List;
  * além de intermediar a comunicação entre controller e repositório.
  */
 @Service
-public class UsuarioServiceImpl implements UsuarioService {
+class UsuarioServiceImpl implements UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
 
