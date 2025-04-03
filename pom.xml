@@ -60,6 +60,12 @@
 			<scope>runtime</scope>
 		</dependency>
 
+		<!-- Dependência do Spring Security -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+
 		<!-- Dependência para testes unitários e de integração no Spring Boot -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
