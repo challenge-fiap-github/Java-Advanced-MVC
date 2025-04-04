@@ -69,12 +69,13 @@
 
   <form th:action="@{/login}" method="post">
     <label>Usuário:</label>
-    <input type="text" name="usuario" required>
+    <input type="text" name="username" required>
 
     <label>Senha:</label>
-    <input type="password" name="senha" required>
+    <input type="password" name="password" required>
 
-    <p class="error" th:if="${erro}" th:text="${erro}"></p>
+    <!-- Exibe mensagem de erro caso o login falhe -->
+    <p class="error" th:if="${param.error}" th:text="'Usuário ou senha inválidos.'"></p>
 
     <button type="submit">Entrar</button>
   </form>

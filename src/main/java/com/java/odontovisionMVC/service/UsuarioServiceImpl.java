@@ -2,45 +2,47 @@ package com.java.odontovisionMVC.service;
 
 import com.java.odontovisionMVC.dto.UsuarioDto;
 import com.java.odontovisionMVC.mapper.UsuarioMapper;
-import com.java.odontovisionMVC.model.Usuario;
 import com.java.odontovisionMVC.model.EnderecoUsuario;
+import com.java.odontovisionMVC.model.Usuario;
 import com.java.odontovisionMVC.repository.UsuarioRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Implementação da interface UsuarioService.
- * Responsável por aplicar as regras de negócio relacionadas a usuários,
- * além de intermediar a comunicação entre controller e repositório.
+ * Aplica regras de negócio relacionadas à entidade Usuario.
  */
 @Service
 class UsuarioServiceImpl implements UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
 
     /**
-     * Injeção de dependência via construtor, favorecendo testabilidade e clareza.
+     * Construtor com injeção de dependência recomendada (sem @Autowired).
+     * Facilita testes e segue boas práticas.
      */
-    public UsuarioServiceImpl(UsuarioRepository usuarioRepository) {
+    public UsuarioServiceImpl(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     /**
-     * Retorna uma lista de usuários convertidos para DTO.
-     * Utiliza stream para mapear cada entidade para seu DTO correspondente.
+     * Retorna todos os usuários cadastrados no banco, convertidos em DTOs.
      */
     @Override
     public List<UsuarioDto> listarTodos() {
         return usuarioRepository.findAll()
                 .stream()
-                .map(UsuarioMapper::toDto)
+                .map(UsuarioMapper::toDto) // Conversão Entity → DTO
                 .toList();
     }
 
     /**
-     * Busca um usuário pelo ID, lançando exceção caso não seja encontrado.
-     * Utiliza Optional para evitar NullPointerException.
+     * Busca um usuário por ID. Se não encontrado, lança exceção com mensagem personalizada.
      */
     @Override
     public UsuarioDto buscarPorId(Long id) {
@@ -51,25 +53,39 @@ class UsuarioServiceImpl implements UsuarioService {
 
     /**
      * Salva (ou atualiza) um usuário.
-     * Realiza mapeamento DTO → Entidade e garante o relacionamento bidirecional com EnderecoUsuario.
+     * Se for novo, gera uma senha aleatória e criptografa com BCrypt.
+     * Em edição, mantém a senha atual.
      */
     @Override
     public UsuarioDto salvar(UsuarioDto dto) {
-        Usuario usuario = UsuarioMapper.toEntity(dto);
+        Usuario usuario = UsuarioMapper.toEntity(dto); // DTO → Entity
 
-        // Relacionamento bidirecional: o endereço aponta para o usuário e vice-versa
+        // Se o usuário for novo (sem ID), gerar e codificar senha aleatória
+        if (usuario.getId() == null) {
+            String senhaGerada = UUID.randomUUID().toString().substring(0, 8); // Gera senha com 8 caracteres
+            usuario.setSenha(passwordEncoder.encode(senhaGerada));
+
+            // Apenas para testes/demonstração. Ideal: enviar essa senha por e-mail.
+            System.out.println("Senha gerada para o novo usuário: " + senhaGerada);
+        } else {
+            // Em edição, manter a senha atual (não sobrescrever com null ou string vazia)
+            Usuario existente = usuarioRepository.findById(usuario.getId()).orElseThrow();
+            usuario.setSenha(existente.getSenha());
+        }
+
+        // Garante que o endereço conheça o usuário (relacionamento bidirecional)
         EnderecoUsuario endereco = usuario.getEndereco();
         if (endereco != null) {
             endereco.setUsuario(usuario);
         }
 
+        // Persiste no banco e retorna como DTO
         Usuario salvo = usuarioRepository.save(usuario);
         return UsuarioMapper.toDto(salvo);
     }
 
     /**
-     * Exclui um usuário pelo ID.
-     * Antes de excluir, valida se o usuário existe para evitar erro silencioso.
+     * Remove um usuário do banco de dados após verificar se ele existe.
      */
     @Override
     public void excluir(Long id) {

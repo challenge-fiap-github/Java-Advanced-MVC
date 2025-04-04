@@ -1,31 +1,75 @@
 package com.java.odontovisionMVC.controller;
 
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+/**
+ * Controller responsável pela autenticação do administrador.
+ * Utiliza autenticação manual com Spring Security, permitindo controle customizado sobre erros e fluxo de login.
+ */
 @Controller
 public class LoginController {
 
-    @GetMapping("/login")
-    public String mostrarLogin() {
-        return "login_admin"; // Certifique-se de que este é o nome correto do arquivo HTML
+    private final AuthenticationManager authenticationManager;
+
+    /**
+     * Injeta o AuthenticationManager configurado no SecurityConfig.
+     */
+    public LoginController(AuthenticationManager authenticationManager) {
+        this.authenticationManager = authenticationManager;
     }
 
-    @PostMapping("/login")
-    public String processarLogin(@RequestParam String usuario, @RequestParam String senha, Model model) {
-        if ("admin123".equals(usuario) && "admin123".equals(senha)) {
-            return "redirect:/painel"; // Redireciona para o painel admin
-        } else {
+    /**
+     * Exibe a página de login.
+     * Se houver erro (parâmetro ?erro na URL), exibe mensagem no HTML.
+     */
+    @GetMapping("/login")
+    public String mostrarLogin(@RequestParam(value = "erro", required = false) String erro, Model model) {
+        if (erro != null) {
             model.addAttribute("erro", "Usuário ou senha incorretos!");
-            return "login_admin"; // Retorna a tela de login com erro
+        }
+        return "login_admin"; // Nome do template HTML de login
+    }
+
+    /**
+     * Processa o login do administrador.
+     * Faz autenticação manual via AuthenticationManager e, se válida, realiza login via request.login().
+     * Caso contrário, exibe mensagem de erro personalizada.
+     */
+    @PostMapping("/login")
+    public String processarLogin(@RequestParam String username,
+                                 @RequestParam String password,
+                                 HttpServletRequest request,
+                                 Model model) {
+        try {
+            // Autentica manualmente usando Spring Security
+            Authentication auth = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(username, password)
+            );
+
+            // Se autenticado com sucesso, registra a sessão manualmente
+            request.login(username, password);
+
+            return "redirect:/painel"; // Redireciona ao painel
+        } catch (AuthenticationException | ServletException e) {
+            // Em caso de falha, exibe erro de autenticação no formulário
+            model.addAttribute("erro", "Usuário ou senha incorretos!");
+            return "login_admin";
         }
     }
 
+    /**
+     * Página principal após login.
+     */
     @GetMapping("/painel")
     public String painelAdmin() {
-        return "painel_admin"; // Nome correto do arquivo HTML
+        return "painel_admin"; // Nome do template HTML do painel
     }
 }
