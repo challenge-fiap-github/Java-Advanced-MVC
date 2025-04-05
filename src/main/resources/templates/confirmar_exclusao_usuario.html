@@ -3,17 +3,40 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Confirmar Exclusão</title>
+  <title th:text="#{exclusao.titulo}">Confirmar Exclusão</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       height: 100vh;
       background: #f8f9fa;
       text-align: center;
+      padding: 20px;
     }
+
+    header {
+      align-self: flex-end;
+      width: 100%;
+      max-width: 400px;
+      text-align: right;
+      margin-bottom: 10px;
+    }
+
+    .lang-switcher a {
+      margin: 0 5px;
+      text-decoration: none;
+      color: #007BFF;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .lang-switcher a:hover {
+      text-decoration: underline;
+    }
+
     .container {
       background: white;
       padding: 20px;
@@ -21,48 +44,58 @@
       box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
       max-width: 400px;
     }
+
     h2 {
       font-weight: bold;
       color: #000;
     }
+
     p {
       color: #555;
+      margin: 15px 0;
     }
+
     .btn {
       display: inline-block;
-      margin-top: 20px;
+      margin-top: 15px;
       padding: 10px 20px;
       font-weight: bold;
       border-radius: 5px;
       text-decoration: none;
       font-size: 16px;
     }
+
     .btn:hover {
-      opacity: 0.8;
+      opacity: 0.9;
     }
+
     .delete {
       background: #dc3545;
       color: white;
     }
-    .delete:hover {
-      background: #c82333;
-    }
+
     .cancel {
       background: #6c757d;
       color: white;
-    }
-    .cancel:hover {
-      background: #5a6268;
     }
   </style>
 </head>
 <body>
 
+<!-- 🌐 Seletor de idioma -->
+<header>
+  <div class="lang-switcher">
+    🌐 <a href="?lang=pt">Português</a> |
+    <a href="?lang=en">English</a> |
+    <a href="?lang=es">Español</a>
+  </div>
+</header>
+
 <div class="container">
-  <h2>Tem certeza que deseja excluir?</h2>
-  <p>Essa ação não pode ser desfeita.</p>
-  <a th:href="@{/usuarios/excluir/{id}(id=${usuario.id})}" class="btn delete">Sim, excluir</a>
-  <a th:href="@{/usuarios}" class="btn cancel">Cancelar</a>
+  <h2 th:text="#{exclusao.titulo}">Tem certeza que deseja excluir?</h2>
+  <p th:text="#{exclusao.aviso}">Essa ação não pode ser desfeita.</p>
+  <a th:href="@{/usuarios/excluir/{id}(id=${usuario.id})}" class="btn delete" th:text="#{exclusao.confirmar}">Sim, excluir</a>
+  <a th:href="@{/usuarios}" class="btn cancel" th:text="#{cancelar}">Cancelar</a>
 </div>
 
 </body>

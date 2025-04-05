@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de Dentista</title>
+    <title th:text="#{dentista.tituloCadastro}">Cadastro de Dentista</title>
     <style>
         * {
             box-sizing: border-box;
@@ -11,37 +11,63 @@
             margin: 0;
             padding: 0;
         }
+
         body {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
             min-height: 100vh;
             background: #f8f9fa;
             padding: 20px;
         }
+
+        header {
+            align-self: flex-end;
+            width: 100%;
+            max-width: 500px;
+            text-align: right;
+            margin-bottom: 10px;
+        }
+
+        .lang-switcher a {
+            margin: 0 5px;
+            text-decoration: none;
+            color: #007BFF;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .lang-switcher a:hover {
+            text-decoration: underline;
+        }
+
         .container {
             background: white;
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             width: 100%;
             max-width: 500px;
         }
+
         h2 {
             text-align: center;
             color: #333;
             margin-bottom: 20px;
         }
+
         label {
             font-weight: bold;
             display: block;
             margin-top: 10px;
             color: #555;
         }
+
         .required::after {
             content: " *";
             color: red;
         }
+
         input {
             width: 100%;
             padding: 10px;
@@ -50,16 +76,20 @@
             border-radius: 5px;
             font-size: 16px;
         }
+
         .form-section {
             margin-top: 15px;
         }
+
         .input-group {
             display: flex;
             gap: 10px;
         }
+
         .input-group input {
             flex: 1;
         }
+
         button {
             width: 100%;
             padding: 12px;
@@ -71,9 +101,11 @@
             margin-top: 15px;
             font-size: 16px;
         }
+
         button:hover {
             background: #0056b3;
         }
+
         .cancel {
             display: block;
             text-align: center;
@@ -81,6 +113,7 @@
             color: #555;
             text-decoration: none;
         }
+
         .cancel:hover {
             text-decoration: underline;
         }
@@ -88,56 +121,63 @@
 </head>
 <body>
 
+<!-- 🌐 Seletor de idioma -->
+<header>
+    <div class="lang-switcher">
+        🌐 <a href="?lang=pt">Português</a> |
+        <a href="?lang=en">English</a> |
+        <a href="?lang=es">Español</a>
+    </div>
+</header>
+
 <div class="container">
-    <h2>Cadastro de Dentista</h2>
+    <h2 th:text="#{dentista.tituloCadastro}">Cadastro de Dentista</h2>
 
     <form th:action="@{/dentistas/salvar}" th:object="${dentista}" method="post">
         <input type="hidden" th:field="*{id}"/>
 
-        <label class="required">Nome:</label>
-        <input type="text" th:field="*{nome}" placeholder="Digite seu nome" required/>
+        <label class="required" th:text="#{dentista.nome}">Nome:</label>
+        <input type="text" th:field="*{nome}" required/>
 
-        <label class="required">Email:</label>
-        <input type="email" th:field="*{email}" placeholder="Digite seu e-mail" required/>
+        <label class="required" th:text="#{dentista.email}">Email:</label>
+        <input type="email" th:field="*{email}" required/>
 
-        <label class="required">Telefone:</label>
-        <input type="text" th:field="*{telefone}" placeholder="Digite seu telefone" required/>
+        <label class="required" th:text="#{dentista.telefone}">Telefone:</label>
+        <input type="text" th:field="*{telefone}" required/>
 
-        <label class="required">CRO (Registro no Conselho Regional de Odontologia):</label>
-        <input type="text" th:field="*{cro}" placeholder="Digite seu CRO" required/>
+        <label class="required" th:text="#{dentista.cro}">CRO:</label>
+        <input type="text" th:field="*{cro}" required/>
 
-        <label class="required">Especialidade:</label>
-        <input type="text" th:field="*{especialidade}" placeholder="Digite sua especialidade" required/>
+        <label class="required" th:text="#{dentista.especialidade}">Especialidade:</label>
+        <input type="text" th:field="*{especialidade}" required/>
 
-        <div class="form-section">
-            <h3>Endereço da Clínica</h3>
+        <h3 th:text="#{dentista.enderecoClinica}">Endereço da Clínica</h3>
 
-            <label class="required">Logradouro:</label>
-            <input type="text" th:field="*{endereco.logradouro}" placeholder="Digite o logradouro" required/>
+        <label class="required" th:text="#{dentista.logradouro}">Logradouro:</label>
+        <input type="text" th:field="*{endereco.logradouro}" required/>
 
-            <div class="input-group">
-                <div>
-                    <label class="required">Número:</label>
-                    <input type="text" th:field="*{endereco.numero}" placeholder="Número" required/>
-                </div>
-                <div>
-                    <label class="required">CEP:</label>
-                    <input type="text" th:field="*{endereco.cep}" placeholder="CEP" required/>
-                </div>
+        <div class="input-group">
+            <div>
+                <label class="required" th:text="#{dentista.numero}">Número:</label>
+                <input type="text" th:field="*{endereco.numero}" required/>
             </div>
-
-            <label class="required">Cidade:</label>
-            <input type="text" th:field="*{endereco.cidade}" placeholder="Digite a cidade" required/>
-
-            <label class="required">Estado:</label>
-            <input type="text" th:field="*{endereco.estado}" placeholder="Digite o estado" required/>
-
-            <label>Complemento:</label>
-            <input type="text" th:field="*{endereco.complemento}" placeholder="Digite o complemento"/>
+            <div>
+                <label class="required" th:text="#{dentista.cep}">CEP:</label>
+                <input type="text" th:field="*{endereco.cep}" required/>
+            </div>
         </div>
 
-        <button type="submit">Salvar</button>
-        <a th:href="@{/painel}" class="cancel">Cancelar</a>
+        <label class="required" th:text="#{dentista.cidade}">Cidade:</label>
+        <input type="text" th:field="*{endereco.cidade}" required/>
+
+        <label class="required" th:text="#{dentista.estado}">Estado:</label>
+        <input type="text" th:field="*{endereco.estado}" required/>
+
+        <label th:text="#{dentista.complemento}">Complemento:</label>
+        <input type="text" th:field="*{endereco.complemento}"/>
+
+        <button type="submit" th:text="#{dentista.salvar}">Salvar</button>
+        <a th:href="@{/painel}" class="cancel" th:text="#{dentista.cancelar}">Cancelar</a>
     </form>
 </div>
 

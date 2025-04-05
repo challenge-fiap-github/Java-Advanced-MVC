@@ -3,17 +3,39 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Editar Dentista</title>
+  <title th:text="#{dentista.editar.titulo}">Editar Dentista</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       background: #f8f9fa;
       padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    header {
+      align-self: flex-end;
+      width: 100%;
+      max-width: 500px;
+      text-align: right;
+      margin-bottom: 10px;
+    }
+
+    .lang-switcher a {
+      margin: 0 5px;
+      text-decoration: none;
+      color: #007BFF;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .lang-switcher a:hover {
+      text-decoration: underline;
     }
 
     .container {
       max-width: 500px;
-      margin: auto;
       background: white;
       padding: 20px;
       border-radius: 8px;
@@ -84,72 +106,76 @@
   </style>
 
   <script>
-    // Função que mostra um alerta antes de salvar
     function mostrarPopup(event) {
       event.preventDefault(); // Impede envio imediato do formulário
       alert("Dentista editado com sucesso!");
-      setTimeout(function() {
+      setTimeout(function () {
         document.getElementById("editForm").submit();
-      }, 500); // Espera meio segundo para submeter
+      }, 500);
     }
   </script>
 </head>
 <body>
 
-<div class="container">
-  <h2>Editar Dentista</h2>
+<!-- 🌐 Seletor de idioma -->
+<header>
+  <div class="lang-switcher">
+    🌐 <a href="?lang=pt">Português</a> |
+    <a href="?lang=en">English</a> |
+    <a href="?lang=es">Español</a>
+  </div>
+</header>
 
-  <!-- Formulário usa Thymeleaf para popular os campos com base no DTO -->
+<div class="container">
+  <h2 th:text="#{dentista.editar.titulo}">Editar Dentista</h2>
+
   <form id="editForm" th:action="@{/dentistas/salvar}" th:object="${dentista}" method="post">
-    <!-- Campo oculto para ID do dentista -->
     <input type="hidden" th:field="*{id}"/>
 
-    <label class="required">Nome:</label>
+    <label class="required" th:text="#{dentista.nome}">Nome:</label>
     <input type="text" th:field="*{nome}" required/>
 
-    <label class="required">Email:</label>
+    <label class="required" th:text="#{dentista.email}">Email:</label>
     <input type="email" th:field="*{email}" required/>
 
-    <label class="required">Telefone:</label>
+    <label class="required" th:text="#{dentista.telefone}">Telefone:</label>
     <input type="text" th:field="*{telefone}" required/>
 
-    <label class="required">CRO:</label>
+    <label class="required" th:text="#{dentista.cro}">CRO:</label>
     <input type="text" th:field="*{cro}" required/>
 
-    <label class="required">Especialidade:</label>
+    <label class="required" th:text="#{dentista.especialidade}">Especialidade:</label>
     <input type="text" th:field="*{especialidade}" required/>
 
-    <!-- Seção de endereço vinculado -->
     <div class="form-section">
-      <h3>Endereço</h3>
+      <h3 th:text="#{dentista.endereco}">Endereço</h3>
 
-      <label class="required">Logradouro:</label>
+      <label class="required" th:text="#{dentista.logradouro}">Logradouro:</label>
       <input type="text" th:field="*{endereco.logradouro}" required/>
 
       <div class="input-group">
         <div>
-          <label class="required">Número:</label>
+          <label class="required" th:text="#{dentista.numero}">Número:</label>
           <input type="text" th:field="*{endereco.numero}" required/>
         </div>
         <div>
-          <label class="required">CEP:</label>
+          <label class="required" th:text="#{dentista.cep}">CEP:</label>
           <input type="text" th:field="*{endereco.cep}" required/>
         </div>
       </div>
 
-      <label class="required">Cidade:</label>
+      <label class="required" th:text="#{dentista.cidade}">Cidade:</label>
       <input type="text" th:field="*{endereco.cidade}" required/>
 
-      <label class="required">Estado:</label>
+      <label class="required" th:text="#{dentista.estado}">Estado:</label>
       <input type="text" th:field="*{endereco.estado}" required/>
 
-      <label>Complemento:</label>
+      <label th:text="#{dentista.complemento}">Complemento:</label>
       <input type="text" th:field="*{endereco.complemento}"/>
     </div>
 
-    <!-- Botões -->
-    <button type="submit" onclick="mostrarPopup(event)">Salvar Alterações</button>
-    <a th:href="@{/dentistas}" class="cancel">Cancelar</a>
+    <button type="submit" onclick="mostrarPopup(event)" th:text="#{dentista.salvar.alteracoes}">Salvar Alterações</button>
+    <a th:href="@{/dentistas}" class="cancel" th:text="#{cancelar}">Cancelar</a>
   </form>
 </div>
 

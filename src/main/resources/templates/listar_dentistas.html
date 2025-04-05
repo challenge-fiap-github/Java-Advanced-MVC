@@ -3,13 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lista de Dentistas</title>
+  <title th:text="#{dentista.lista}">Lista de Dentistas</title>
   <style>
-    /* Estilo da tabela e layout */
     body {
       font-family: Arial, sans-serif;
       background: #f8f9fa;
       padding: 20px;
+    }
+
+    header {
+      text-align: right;
+      margin-bottom: 10px;
+    }
+
+    .lang-switcher a {
+      margin: 0 5px;
+      text-decoration: none;
+      color: #007BFF;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .lang-switcher a:hover {
+      text-decoration: underline;
     }
 
     .container {
@@ -25,6 +41,8 @@
       display: flex;
       justify-content: space-between;
       margin-bottom: 15px;
+      flex-wrap: wrap;
+      gap: 10px;
     }
 
     .btn {
@@ -56,6 +74,7 @@
       width: 100%;
       border-collapse: collapse;
       margin-top: 10px;
+      min-width: 700px;
     }
 
     th, td {
@@ -90,75 +109,93 @@
       padding: 5px 10px;
       border-radius: 5px;
     }
+
+    @media (max-width: 768px) {
+      .buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      table {
+        font-size: 12px;
+      }
+
+      .actions {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
   </style>
 
   <script>
-    // Função de filtro de busca na tabela
     function filtrarDentistas() {
       let input = document.getElementById("buscaDentista").value.toLowerCase();
       let rows = document.querySelectorAll("#dentistasTable tbody tr");
 
       rows.forEach(row => {
-        let nome = row.cells[0].textContent.toLowerCase();
-        let email = row.cells[1].textContent.toLowerCase();
-        let telefone = row.cells[2].textContent.toLowerCase();
-        let cro = row.cells[3].textContent.toLowerCase();
-        let especialidade = row.cells[4].textContent.toLowerCase();
-        let endereco = row.cells[5].textContent.toLowerCase();
-
-        // Se algum dos campos conter o texto da busca, mantém a linha visível
-        if (nome.includes(input) || email.includes(input) || telefone.includes(input) ||
-                cro.includes(input) || especialidade.includes(input) || endereco.includes(input)) {
-          row.style.display = "";
-        } else {
-          row.style.display = "none";
-        }
+        let colunas = Array.from(row.cells).map(td => td.textContent.toLowerCase());
+        let matches = colunas.some(col => col.includes(input));
+        row.style.display = matches ? "" : "none";
       });
     }
   </script>
 </head>
 <body>
 
-<!-- Botões de navegação -->
-<div class="buttons">
-  <a th:href="@{/painel}" class="btn back">🔙 Voltar</a>
-  <a th:href="@{/dentistas/novo}" class="btn add">+ Cadastrar Novo Dentista</a>
-</div>
+<!-- 🌐 Seletor de idioma -->
+<header>
+  <div class="lang-switcher">
+    🌐 <a href="?lang=pt">Português</a> |
+    <a href="?lang=en">English</a> |
+    <a href="?lang=es">Español</a>
+  </div>
+</header>
 
-<!-- Campo de busca -->
-<div class="search-box">
-  <input type="text" id="buscaDentista" placeholder="🔍 Buscar dentista..." onkeyup="filtrarDentistas()">
-</div>
+<div class="container">
+  <!-- Botões -->
+  <div class="buttons">
+    <a th:href="@{/painel}" class="btn back" th:text="#{voltar}">🔙 Voltar</a>
+    <a th:href="@{/dentistas/novo}" class="btn add" th:text="#{dentista.cadastrar}">+ Cadastrar Novo Dentista</a>
+  </div>
 
-<!-- Tabela com dados dos dentistas -->
-<table id="dentistasTable">
-  <thead>
-  <tr>
-    <th>Nome</th>
-    <th>Email</th>
-    <th>Telefone</th>
-    <th>CRO</th>
-    <th>Especialidade</th>
-    <th>Endereço</th>
-    <th>Ações</th>
-  </tr>
-  </thead>
-  <tbody>
-  <!-- Iteração sobre a lista de dentistas vinda do controller -->
-  <tr th:each="dentista : ${dentistas}">
-    <td th:text="${dentista.nome}"></td>
-    <td th:text="${dentista.email}"></td>
-    <td th:text="${dentista.telefone}"></td>
-    <td th:text="${dentista.cro}"></td>
-    <td th:text="${dentista.especialidade}"></td>
-    <td th:text="${dentista.endereco.logradouro + ', ' + dentista.endereco.numero + ', ' + dentista.endereco.cidade + ' - ' + dentista.endereco.estado}"></td>
-    <td class="actions">
-      <a th:href="@{/dentistas/editar/{id}(id=${dentista.id})}" class="edit">Editar</a>
-      <a th:href="@{/dentistas/confirmar_exclusao/{id}(id=${dentista.id})}" class="delete">Excluir</a>
-    </td>
-  </tr>
-  </tbody>
-</table>
+  <!-- Campo de busca -->
+  <div class="search-box">
+    <input type="text" id="buscaDentista" th:placeholder="#{dentista.buscar}" onkeyup="filtrarDentistas()">
+  </div>
+
+  <!-- Tabela de dentistas -->
+  <table id="dentistasTable">
+    <thead>
+    <tr>
+      <th th:text="#{dentista.nome}">Nome</th>
+      <th th:text="#{dentista.email}">Email</th>
+      <th th:text="#{dentista.telefone}">Telefone</th>
+      <th th:text="#{dentista.cro}">CRO</th>
+      <th th:text="#{dentista.especialidade}">Especialidade</th>
+      <th th:text="#{dentista.endereco}">Endereço</th>
+      <th th:text="#{acoes}">Ações</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="dentista : ${dentistas}">
+      <td th:text="${dentista.nome}"></td>
+      <td th:text="${dentista.email}"></td>
+      <td th:text="${dentista.telefone}"></td>
+      <td th:text="${dentista.cro}"></td>
+      <td th:text="${dentista.especialidade}"></td>
+      <td th:text="${dentista.endereco.logradouro + ', ' + dentista.endereco.numero + ', ' + dentista.endereco.cidade + ' - ' + dentista.endereco.estado}"></td>
+      <td class="actions">
+        <a th:href="@{/dentistas/editar/{id}(id=${dentista.id})}" class="edit" th:text="#{editar}">Editar</a>
+        <a th:href="@{/dentistas/confirmar_exclusao/{id}(id=${dentista.id})}" class="delete" th:text="#{excluir}">Excluir</a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
 
 </body>
 </html>

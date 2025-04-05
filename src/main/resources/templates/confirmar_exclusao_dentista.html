@@ -3,16 +3,38 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Confirmar Exclusão</title>
+  <title th:text="#{exclusao.titulo}">Confirmar Exclusão</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       height: 100vh;
       background: #f8f9fa;
       text-align: center;
+      padding: 20px;
+    }
+
+    header {
+      align-self: flex-end;
+      width: 100%;
+      max-width: 400px;
+      text-align: right;
+      margin-bottom: 10px;
+    }
+
+    .lang-switcher a {
+      margin: 0 5px;
+      text-decoration: none;
+      color: #007BFF;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .lang-switcher a:hover {
+      text-decoration: underline;
     }
 
     .container {
@@ -30,11 +52,12 @@
 
     p {
       color: #555;
+      margin: 15px 0;
     }
 
     .btn {
       display: inline-block;
-      margin-top: 20px;
+      margin-top: 15px;
       padding: 10px 20px;
       font-weight: bold;
       border-radius: 5px;
@@ -43,7 +66,7 @@
     }
 
     .btn:hover {
-      opacity: 0.8;
+      opacity: 0.9;
     }
 
     .delete {
@@ -51,34 +74,29 @@
       color: white;
     }
 
-    .delete:hover {
-      background: #c82333;
-    }
-
     .cancel {
       background: #6c757d;
       color: white;
-    }
-
-    .cancel:hover {
-      background: #5a6268;
     }
   </style>
 </head>
 <body>
 
+<!-- 🌐 Seletor de idioma -->
+<header>
+  <div class="lang-switcher">
+    🌐 <a href="?lang=pt">Português</a> |
+    <a href="?lang=en">English</a> |
+    <a href="?lang=es">Español</a>
+  </div>
+</header>
+
 <div class="container">
-  <!-- Título de confirmação -->
-  <h2>Tem certeza que deseja excluir?</h2>
+  <h2 th:text="#{exclusao.titulo}">Tem certeza que deseja excluir?</h2>
+  <p th:text="#{exclusao.aviso}">Essa ação não pode ser desfeita.</p>
 
-  <!-- Mensagem de alerta irreversível -->
-  <p>Essa ação não pode ser desfeita.</p>
-
-  <!-- Botão de confirmação com o ID do dentista dinamicamente inserido -->
-  <a th:href="@{/dentistas/excluir/{id}(id=${dentista.id})}" class="btn delete">Sim, excluir</a>
-
-  <!-- Botão para retornar à listagem sem excluir -->
-  <a th:href="@{/dentistas}" class="btn cancel">Cancelar</a>
+  <a th:href="@{/dentistas/excluir/{id}(id=${dentista.id})}" class="btn delete" th:text="#{exclusao.confirmar}">Sim, excluir</a>
+  <a th:href="@{/dentistas}" class="btn cancel" th:text="#{cancelar}">Cancelar</a>
 </div>
 
 </body>

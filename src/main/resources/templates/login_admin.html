@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login - Administrador</title>
+  <title th:text="#{login.titulo}">Login</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -14,6 +14,25 @@
       height: 100vh;
       margin: 0;
     }
+
+    header {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+    }
+
+    .lang-switcher a {
+      margin: 0 5px;
+      text-decoration: none;
+      color: #007BFF;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .lang-switcher a:hover {
+      text-decoration: underline;
+    }
+
     .container {
       background: white;
       padding: 20px;
@@ -23,16 +42,19 @@
       max-width: 400px;
       text-align: center;
     }
+
     h2 {
       color: #333;
       margin-bottom: 20px;
     }
+
     label {
       font-weight: bold;
       display: block;
       margin-top: 10px;
       text-align: left;
     }
+
     input {
       width: 100%;
       padding: 10px;
@@ -41,11 +63,13 @@
       border-radius: 5px;
       font-size: 16px;
     }
+
     .error {
       color: red;
       margin-top: 10px;
       display: block;
     }
+
     button {
       width: 100%;
       padding: 12px;
@@ -57,27 +81,46 @@
       margin-top: 15px;
       font-size: 16px;
     }
+
     button:hover {
       background: #0056b3;
+    }
+
+    @media (max-width: 600px) {
+      header {
+        position: static;
+        margin-top: 10px;
+        text-align: center;
+      }
     }
   </style>
 </head>
 <body>
 
+<!-- 🌐 Seletor de idioma no topo -->
+<header>
+  <div class="lang-switcher">
+    🌐
+    <a href="?lang=pt">Português</a> |
+    <a href="?lang=en">English</a> |
+    <a href="?lang=es">Español</a>
+  </div>
+</header>
+
+<!-- Formulário de login -->
 <div class="container">
-  <h2>Login do Administrador</h2>
+  <h2 th:text="#{login.titulo}">Login do Administrador</h2>
 
   <form th:action="@{/login}" method="post">
-    <label>Usuário:</label>
+    <label th:text="#{login.usuario}">Usuário:</label>
     <input type="text" name="username" required>
 
-    <label>Senha:</label>
+    <label th:text="#{login.senha}">Senha:</label>
     <input type="password" name="password" required>
 
-    <!-- Exibe mensagem de erro caso o login falhe -->
-    <p class="error" th:if="${param.error}" th:text="'Usuário ou senha inválidos.'"></p>
+    <p class="error" th:if="${erro}" th:text="${erro}">Usuário ou senha inválidos.</p>
 
-    <button type="submit">Entrar</button>
+    <button type="submit" th:text="#{login.entrar}">Entrar</button>
   </form>
 </div>
 

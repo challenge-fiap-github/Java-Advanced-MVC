@@ -3,27 +3,52 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cadastro Concluído</title>
+  <title th:text="#{cadastro.sucesso.titulo}">Cadastro Concluído</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+      margin: 0;
+      padding: 0;
       background: #f8f9fa;
-      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
     }
+
+    header {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+    }
+
+    .lang-switcher a {
+      margin: 0 5px;
+      text-decoration: none;
+      color: #007BFF;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .lang-switcher a:hover {
+      text-decoration: underline;
+    }
+
     .container {
       background: white;
       padding: 20px;
       border-radius: 8px;
-      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
       max-width: 400px;
+      width: 100%;
     }
+
     h2 {
       color: #28a745;
     }
+
     .btn {
       display: block;
       margin-top: 20px;
@@ -33,16 +58,32 @@
       text-decoration: none;
       border-radius: 5px;
     }
+
     .btn:hover {
       background: #0056b3;
+    }
+
+    @media (max-width: 600px) {
+      header {
+        position: static;
+        margin-top: 10px;
+      }
     }
   </style>
 </head>
 <body>
 
+<header>
+  <div class="lang-switcher">
+    🌐 <a href="?lang=pt">🇧🇷 Português</a> |
+    <a href="?lang=en">🇺🇸 English</a> |
+    <a href="?lang=es">🇪🇸 Español</a>
+  </div>
+</header>
+
 <div class="container">
-  <h2>Usuário cadastrado com sucesso!</h2>
-  <a th:href="@{/painel}" class="btn">Voltar ao Painel</a>
+  <h2 th:text="#{cadastro.usuario.mensagem}">Usuário cadastrado com sucesso!</h2>
+  <a th:href="@{/painel}" class="btn" th:text="#{cadastro.sucesso.voltar}">Voltar ao Painel</a>
 </div>
 
 </body>

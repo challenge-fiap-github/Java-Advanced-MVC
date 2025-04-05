@@ -3,12 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lista de Usuários</title>
+  <title th:text="#{usuario.lista}">Lista de Usuários</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       background: #f8f9fa;
       padding: 20px;
+    }
+
+    header {
+      text-align: right;
+      margin-bottom: 10px;
+    }
+
+    .lang-switcher a {
+      margin: 0 5px;
+      text-decoration: none;
+      color: #007BFF;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .lang-switcher a:hover {
+      text-decoration: underline;
     }
 
     .container {
@@ -116,29 +133,38 @@
 </head>
 <body>
 
+<!-- 🌐 Seletor de idioma -->
+<header>
+  <div class="lang-switcher">
+    🌐 <a href="?lang=pt">Português</a> |
+    <a href="?lang=en">English</a> |
+    <a href="?lang=es">Español</a>
+  </div>
+</header>
+
 <div class="container">
   <div class="buttons">
-    <a th:href="@{/painel}" class="btn back">🔙 Voltar</a>
-    <a th:href="@{/usuarios/novo}" class="btn add">+ Cadastrar Novo Usuário</a>
+    <a th:href="@{/painel}" class="btn back" th:text="#{voltar}">🔙 Voltar</a>
+    <a th:href="@{/usuarios/novo}" class="btn add" th:text="#{usuario.cadastrar}">+ Cadastrar Novo Usuário</a>
   </div>
 
-  <h2>Lista de Usuários</h2>
+  <h2 th:text="#{usuario.lista}">Lista de Usuários</h2>
 
   <div class="search-box">
-    <input type="text" id="searchInput" onkeyup="buscarUsuario()" placeholder="🔍 Buscar usuário...">
+    <input type="text" id="searchInput" onkeyup="buscarUsuario()" th:placeholder="#{usuario.buscar}">
   </div>
 
   <div class="table-container">
     <table id="usuariosTable">
       <thead>
       <tr>
-        <th>Nome</th>
-        <th>Email</th>
-        <th>CPF</th>
-        <th>Data de Nascimento</th>
-        <th>Telefone</th>
-        <th>Endereço</th>
-        <th>Ações</th>
+        <th th:text="#{usuario.nome}">Nome</th>
+        <th th:text="#{usuario.email}">Email</th>
+        <th th:text="#{usuario.cpf}">CPF</th>
+        <th th:text="#{usuario.dataNascimento}">Data de Nascimento</th>
+        <th th:text="#{usuario.telefone}">Telefone</th>
+        <th th:text="#{usuario.endereco}">Endereço</th>
+        <th th:text="#{acoes}">Ações</th>
       </tr>
       </thead>
       <tbody>
@@ -150,8 +176,8 @@
         <td th:text="${usuario.telefone}"></td>
         <td th:text="${usuario.endereco.logradouro + ', ' + usuario.endereco.numero + ' - ' + usuario.endereco.cidade + ' - ' + usuario.endereco.estado}"></td>
         <td class="actions">
-          <a th:href="@{/usuarios/editar/{id}(id=${usuario.id})}" class="edit">Editar</a>
-          <a th:href="@{/usuarios/confirmar_exclusao/{id}(id=${usuario.id})}" class="delete">Excluir</a>
+          <a th:href="@{/usuarios/editar/{id}(id=${usuario.id})}" class="edit" th:text="#{editar}">Editar</a>
+          <a th:href="@{/usuarios/confirmar_exclusao/{id}(id=${usuario.id})}" class="delete" th:text="#{excluir}">Excluir</a>
         </td>
       </tr>
       </tbody>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Painel Administrativo</title>
+  <title th:text="#{painel.titulo}">Painel</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -15,21 +15,45 @@
       margin: 0;
       flex-direction: column;
     }
+
+    header {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+    }
+
+    .lang-switcher a {
+      margin: 0 5px;
+      text-decoration: none;
+      color: #007BFF;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .lang-switcher a:hover {
+      text-decoration: underline;
+    }
+
     h2 {
       margin-bottom: 30px;
       font-size: 24px;
       text-align: center;
     }
+
     .container {
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 20px;
     }
+
     .row {
       display: flex;
       gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
     }
+
     .btn {
       display: flex;
       align-items: center;
@@ -45,33 +69,57 @@
       font-weight: bold;
       text-align: center;
     }
+
     .btn:hover {
       background: #007BFF;
       color: white;
       border-color: #0056b3;
     }
+
     .btn-exit {
       margin-top: 30px;
       width: 200px;
+    }
+
+    @media (max-width: 600px) {
+      .row {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      header {
+        position: static;
+        margin-top: 10px;
+      }
     }
   </style>
 </head>
 <body>
 
-<h2>Escolha as Opções:</h2>
+<!-- 🌐 Seletor de idioma no topo direito -->
+<header>
+  <div class="lang-switcher">
+    🌐
+    <a href="?lang=pt">Português</a> |
+    <a href="?lang=en">English</a> |
+    <a href="?lang=es">Español</a>
+  </div>
+</header>
+
+<h2 th:text="#{painel.subtitulo}">Escolha as Opções:</h2>
 
 <div class="container">
   <div class="row">
-    <a th:href="@{/usuarios/novo}" class="btn">Cadastrar Paciente</a>
-    <a th:href="@{/dentistas/novo}" class="btn">Cadastrar Dentista</a>
+    <a th:href="@{/usuarios/novo}" class="btn" th:text="#{painel.cadastrarPaciente}">Cadastrar Paciente</a>
+    <a th:href="@{/dentistas/novo}" class="btn" th:text="#{painel.cadastrarDentista}">Cadastrar Dentista</a>
   </div>
 
   <div class="row">
-    <a th:href="@{/usuarios}" class="btn">Pacientes Existentes</a>
-    <a th:href="@{/dentistas}" class="btn">Dentistas Existentes</a>
+    <a th:href="@{/usuarios}" class="btn" th:text="#{painel.verPacientes}">Pacientes Existentes</a>
+    <a th:href="@{/dentistas}" class="btn" th:text="#{painel.verDentistas}">Dentistas Existentes</a>
   </div>
 
-  <a th:href="@{/login}" class="btn btn-exit">Sair</a>
+  <a th:href="@{/login}" class="btn btn-exit" th:text="#{painel.sair}">Sair</a>
 </div>
 
 </body>

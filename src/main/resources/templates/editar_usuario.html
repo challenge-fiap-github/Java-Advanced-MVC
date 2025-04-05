@@ -3,20 +3,106 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Editar Usuário</title>
+  <title th:text="#{usuario.editar.titulo}">Editar Usuário</title>
   <style>
-    body { font-family: Arial, sans-serif; background: #f8f9fa; padding: 20px; }
-    .container { max-width: 500px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); }
-    label { font-weight: bold; display: block; margin-top: 10px; color: #555; }
-    .required::after { content: " *"; color: red; }
-    input { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ddd; border-radius: 5px; font-size: 16px; }
-    .form-section { margin-top: 15px; }
-    .input-group { display: flex; gap: 10px; }
-    .input-group input { flex: 1; }
-    button { width: 100%; padding: 12px; background: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer; margin-top: 15px; font-size: 16px; }
-    button:hover { background: #0056b3; }
-    .cancel { display: block; text-align: center; margin-top: 10px; color: #555; text-decoration: none; }
-    .cancel:hover { text-decoration: underline; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8f9fa;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    header {
+      align-self: flex-end;
+      width: 100%;
+      max-width: 500px;
+      text-align: right;
+      margin-bottom: 10px;
+    }
+
+    .lang-switcher a {
+      margin: 0 5px;
+      text-decoration: none;
+      color: #007BFF;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .lang-switcher a:hover {
+      text-decoration: underline;
+    }
+
+    .container {
+      max-width: 500px;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 10px;
+      color: #555;
+    }
+
+    .required::after {
+      content: " *";
+      color: red;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    .form-section {
+      margin-top: 15px;
+    }
+
+    .input-group {
+      display: flex;
+      gap: 10px;
+    }
+
+    .input-group input {
+      flex: 1;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 15px;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    .cancel {
+      display: block;
+      text-align: center;
+      margin-top: 10px;
+      color: #555;
+      text-decoration: none;
+    }
+
+    .cancel:hover {
+      text-decoration: underline;
+    }
   </style>
 
   <script>
@@ -29,55 +115,65 @@
 </head>
 <body>
 
+<!-- 🌐 Seletor de idioma -->
+<header>
+  <div class="lang-switcher">
+    🌐 <a href="?lang=pt">Português</a> |
+    <a href="?lang=en">English</a> |
+    <a href="?lang=es">Español</a>
+  </div>
+</header>
+
 <div class="container">
-  <h2>Editar Usuário</h2>
+  <h2 th:text="#{usuario.editar.titulo}">Editar Usuário</h2>
 
   <form id="editForm" th:action="@{/usuarios/salvar}" th:object="${usuario}" method="post">
     <input type="hidden" th:field="*{id}"/>
 
-    <label class="required">Nome:</label>
+    <label class="required" th:text="#{usuario.nome}">Nome:</label>
     <input type="text" th:field="*{nome}" required/>
 
-    <label class="required">Email:</label>
+    <label class="required" th:text="#{usuario.email}">Email:</label>
     <input type="email" th:field="*{email}" required/>
 
-    <label class="required">CPF:</label>
+    <label class="required" th:text="#{usuario.cpf}">CPF:</label>
     <input type="text" th:field="*{cpf}" required/>
 
-    <label class="required">Data de Nascimento:</label>
+    <label class="required" th:text="#{usuario.dataNascimento}">Data de Nascimento:</label>
     <input type="date" th:field="*{dataNascimento}" required/>
 
-    <label class="required">Telefone:</label>
+    <label class="required" th:text="#{usuario.telefone}">Telefone:</label>
     <input type="text" th:field="*{telefone}" required/>
 
     <div class="form-section">
-      <h3>Endereço</h3>
-      <label class="required">Logradouro:</label>
+      <h3 th:text="#{usuario.endereco}">Endereço</h3>
+
+      <label class="required" th:text="#{usuario.logradouro}">Logradouro:</label>
       <input type="text" th:field="*{endereco.logradouro}" required/>
 
       <div class="input-group">
         <div>
-          <label class="required">Número:</label>
+          <label class="required" th:text="#{usuario.numero}">Número:</label>
           <input type="text" th:field="*{endereco.numero}" required/>
         </div>
         <div>
-          <label class="required">CEP:</label>
+          <label class="required" th:text="#{usuario.cep}">CEP:</label>
           <input type="text" th:field="*{endereco.cep}" required/>
         </div>
       </div>
 
-      <label class="required">Cidade:</label>
+      <label class="required" th:text="#{usuario.cidade}">Cidade:</label>
       <input type="text" th:field="*{endereco.cidade}" required/>
 
-      <label class="required">Estado:</label>
+      <label class="required" th:text="#{usuario.estado}">Estado:</label>
       <input type="text" th:field="*{endereco.estado}" required/>
 
-      <label>Complemento:</label>
+      <label th:text="#{usuario.complemento}">Complemento:</label>
       <input type="text" th:field="*{endereco.complemento}"/>
     </div>
 
-    <button type="submit" onclick="mostrarPopup(event)">Salvar Alterações</button>
-    <a th:href="@{/usuarios}" class="cancel">Cancelar</a>
+    <button type="submit" onclick="mostrarPopup(event)" th:text="#{usuario.salvar.alteracoes}">Salvar Alterações</button>
+    <a th:href="@{/usuarios}" class="cancel" th:text="#{cancelar}">Cancelar</a>
   </form>
 </div>
 
