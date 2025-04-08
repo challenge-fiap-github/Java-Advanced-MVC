@@ -66,6 +66,12 @@
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 
+		<!-- -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-oauth2-client</artifactId>
+		</dependency>
+
 		<!-- Dependência para testes unitários e de integração no Spring Boot -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

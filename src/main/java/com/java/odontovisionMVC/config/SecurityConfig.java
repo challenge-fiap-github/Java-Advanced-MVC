@@ -18,25 +18,22 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    // Define o algoritmo de encriptação de senhas (BCrypt)
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // Cria um usuário em memória com login "admin" e senha criptografada "admin123"
     @Bean
     public UserDetailsService userDetailsService(PasswordEncoder encoder) {
         var admin = User.builder()
                 .username("admin")
-                .password("$2a$12$jf7otcC9kvkOrrCGmUFkvebdyjmgvcNPVElwJshtIsdWZkC6X2ZVa") // admin123
+                .password("$2a$12$jf7otcC9kvkOrrCGmUFkvebdyjmgvcNPVElwJshtIsdWZkC6X2ZVa") // senha: admin123
                 .roles("ADMIN")
                 .build();
 
         return new InMemoryUserDetailsManager(admin);
     }
 
-    // Provedor de autenticação baseado no usuário em memória
     @Bean
     public DaoAuthenticationProvider authenticationProvider(UserDetailsService userDetailsService,
                                                             PasswordEncoder encoder) {
@@ -46,26 +43,31 @@ public class SecurityConfig {
         return provider;
     }
 
-    // Define regras de segurança da aplicação (rotas públicas, protegidas, etc.)
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login", "/css/**", "/js/**").permitAll() // Libera login e assets
-                        .requestMatchers("/painel/**", "/dentistas/**", "/usuarios/**").hasRole("ADMIN") // Protege essas rotas
+                        .requestMatchers("/login", "/css/**", "/js/**", "/images/**", "/oauth2/**").permitAll()
+                        .requestMatchers("/painel/**", "/dentistas/**", "/usuarios/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
-                        .loginPage("/login") // Página de login customizada
+                        .loginPage("/login")
                         .defaultSuccessUrl("/painel", true)
                         .permitAll()
                 )
-                .logout(logout -> logout.permitAll());
+                .oauth2Login(oauth -> oauth
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/painel", true)
+                )
+                .logout(logout -> logout
+                        .logoutSuccessUrl("/login?logout")
+                        .permitAll()
+                );
 
         return http.build();
     }
 
-    // Gerenciador de autenticação (usado pelo Spring internamente)
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();

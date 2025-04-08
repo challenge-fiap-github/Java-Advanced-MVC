@@ -70,20 +70,35 @@
       display: block;
     }
 
-    button {
+    .btn {
       width: 100%;
       padding: 12px;
-      background: #007BFF;
-      color: white;
       border: none;
       border-radius: 5px;
       cursor: pointer;
-      margin-top: 15px;
       font-size: 16px;
+      margin-top: 10px;
+      text-decoration: none;
+      display: block;
     }
 
-    button:hover {
-      background: #0056b3;
+    .btn-login {
+      background: #007BFF;
+      color: white;
+    }
+
+    .btn-google {
+      background: #DB4437;
+      color: white;
+    }
+
+    .btn-github {
+      background: #333;
+      color: white;
+    }
+
+    .btn:hover {
+      opacity: 0.9;
     }
 
     @media (max-width: 600px) {
@@ -97,7 +112,6 @@
 </head>
 <body>
 
-<!-- 🌐 Seletor de idioma no topo -->
 <header>
   <div class="lang-switcher">
     🌐
@@ -107,7 +121,6 @@
   </div>
 </header>
 
-<!-- Formulário de login -->
 <div class="container">
   <h2 th:text="#{login.titulo}">Login do Administrador</h2>
 
@@ -120,8 +133,15 @@
 
     <p class="error" th:if="${erro}" th:text="${erro}">Usuário ou senha inválidos.</p>
 
-    <button type="submit" th:text="#{login.entrar}">Entrar</button>
+    <button type="submit" class="btn btn-login" th:text="#{login.entrar}">Entrar</button>
   </form>
+
+  <hr>
+  <p>Ou entre com:</p>
+  <a href="/oauth2/authorization/google" style="display:block;margin-top:20px;text-decoration:none;background:#db4437;color:white;padding:12px;border-radius:5px;">
+    Login com Google
+  </a>
+  <a href="/oauth2/authorization/github" class="btn btn-github">GitHub</a>
 </div>
 
 </body>
