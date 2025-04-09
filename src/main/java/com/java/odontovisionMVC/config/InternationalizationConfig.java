@@ -1,5 +1,6 @@
 package com.java.odontovisionMVC.config;
 
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.LocaleResolver;
@@ -7,31 +8,41 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 
 import java.util.Locale;
 
 @Configuration
 public class InternationalizationConfig implements WebMvcConfigurer {
 
-    // Define o local padrão como português
+    // Define o locale padrão da aplicação
     @Bean
     public LocaleResolver localeResolver() {
         SessionLocaleResolver slr = new SessionLocaleResolver();
-        slr.setDefaultLocale(new Locale("pt")); // Define 'pt' como idioma padrão
+        slr.setDefaultLocale(new Locale("pt")); // Português como padrão
         return slr;
     }
 
-    // Interceptador que permite mudar o idioma via URL ?lang=
+    // Permite trocar de idioma via parâmetro ?lang=
     @Bean
     public LocaleChangeInterceptor localeChangeInterceptor() {
         LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
-        interceptor.setParamName("lang"); // nome do parâmetro na URL
+        interceptor.setParamName("lang"); // ex: ?lang=en, ?lang=pt
         return interceptor;
     }
 
-    // Registra o interceptador na aplicação
+    // Registra o interceptor
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(localeChangeInterceptor());
+    }
+
+    // Configura a fonte das mensagens de internacionalização
+    @Bean
+    public MessageSource messageSource() {
+        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+        messageSource.setBasename("classpath:messages"); // Arquivos messages_*.properties
+        messageSource.setDefaultEncoding("UTF-8");
+        return messageSource;
     }
 }
