@@ -136,10 +136,21 @@
     <button type="submit" class="btn btn-login" th:text="#{login.entrar}">Entrar</button>
   </form>
 
+  <!-- Seção de login social -->
   <hr>
-  <p>Ou entre com:</p>
-  <a href="/oauth2/authorization/google" style="display:block;margin-top:20px;text-decoration:none;background:#db4437;color:white;padding:12px;border-radius:5px;">Google</a>
-  <a href="/oauth2/authorization/github" class="btn btn-github">GitHub</a>
+  <p th:text="#{login.ouEntrarCom}">Ou entre com:</p>
+
+  <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
+    <a href="/oauth2/authorization/google" class="btn btn-google" style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg" alt="Google" style="width: 20px; height: 20px;">
+      Google
+    </a>
+
+    <a href="/oauth2/authorization/github" class="btn btn-github" style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" style="width: 20px; height: 20px; filter: invert(1);">
+      GitHub
+    </a>
+  </div>
 </div>
 
 </body>

@@ -23,14 +23,14 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+    // Usuário em memória para testes
     @Bean
     public UserDetailsService userDetailsService(PasswordEncoder encoder) {
         var admin = User.builder()
                 .username("admin")
-                .password("$2a$12$jf7otcC9kvkOrrCGmUFkvebdyjmgvcNPVElwJshtIsdWZkC6X2ZVa") // senha: admin123
+                .password("$2a$12$jf7otcC9kvkOrrCGmUFkvebdyjmgvcNPVElwJshtIsdWZkC6X2ZVa")
                 .roles("ADMIN")
                 .build();
-
         return new InMemoryUserDetailsManager(admin);
     }
 
@@ -47,19 +47,34 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login", "/css/**", "/js/**", "/images/**", "/oauth2/**").permitAll()
-                        .requestMatchers("/painel/**", "/dentistas/**", "/usuarios/**").hasRole("ADMIN")
+                        .requestMatchers(
+                                "/login",
+                                "/css/**",
+                                "/js/**",
+                                "/images/**",
+                                "/oauth2/**",         // URLs usadas pelo OAuth2
+                                "/locale",            // controller de troca de idioma
+                                "/**.css", "/**.js"
+                        ).permitAll()
+
+                        .requestMatchers("/painel/**", "/usuarios/**", "/dentistas/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
+
+                // Login tradicional
                 .formLogin(form -> form
                         .loginPage("/login")
                         .defaultSuccessUrl("/painel", true)
                         .permitAll()
                 )
+
+                // Login via Google e GitHub
                 .oauth2Login(oauth -> oauth
                         .loginPage("/login")
                         .defaultSuccessUrl("/painel", true)
                 )
+
+                // Logout
                 .logout(logout -> logout
                         .logoutSuccessUrl("/login?logout")
                         .permitAll()
