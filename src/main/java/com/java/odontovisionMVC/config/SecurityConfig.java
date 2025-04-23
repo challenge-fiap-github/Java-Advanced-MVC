@@ -17,7 +17,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-
+//
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -42,47 +42,47 @@ public class SecurityConfig {
         provider.setPasswordEncoder(encoder);
         return provider;
     }
-
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(
-                                "/login",
-                                "/css/**",
-                                "/js/**",
-                                "/images/**",
-                                "/oauth2/**",         // URLs usadas pelo OAuth2
-                                "/locale",            // controller de troca de idioma
-                                "/**.css", "/**.js"
-                        ).permitAll()
-
-                        .requestMatchers("/painel/**", "/usuarios/**", "/dentistas/**").hasRole("ADMIN")
-                        .anyRequest().authenticated()
-                )
-
-                // Login tradicional
-                .formLogin(form -> form
-                        .loginPage("/login")
-                        .defaultSuccessUrl("/painel", true)
-                        .permitAll()
-                )
-
-                // Login via Google e GitHub
-                .oauth2Login(oauth -> oauth
-                        .loginPage("/login")
-                        .defaultSuccessUrl("/painel", true)
-                )
-
-                // Logout
-                .logout(logout -> logout
-                        .logoutSuccessUrl("/login?logout")
-                        .permitAll()
-                );
-
-        return http.build();
-    }
-
+//
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//        http
+//                .authorizeHttpRequests(auth -> auth
+//                        .requestMatchers(
+//                                "/login",
+//                                "/css/**",
+//                                "/js/**",
+//                                "/images/**",
+//                                "/oauth2/**",         // URLs usadas pelo OAuth2
+//                                "/locale",            // controller de troca de idioma
+//                                "/**.css", "/**.js"
+//                        ).permitAll()
+//
+//                        .requestMatchers("/painel/**", "/usuarios/**", "/dentistas/**").hasRole("ADMIN")
+//                        .anyRequest().authenticated()
+//                )
+//
+//                // Login tradicional
+//                .formLogin(form -> form
+//                        .loginPage("/login")
+//                        .defaultSuccessUrl("/painel", true)
+//                        .permitAll()
+//                )
+//
+//                // Login via Google e GitHub
+//                .oauth2Login(oauth -> oauth
+//                        .loginPage("/login")
+//                        .defaultSuccessUrl("/painel", true)
+//                )
+//
+//                // Logout
+//                .logout(logout -> logout
+//                        .logoutSuccessUrl("/login?logout")
+//                        .permitAll()
+//                );
+//
+//        return http.build();
+//    }
+//
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
