@@ -83,22 +83,27 @@
     }
 
     .btn-login {
-      background: #007BFF;
+      background-color: #007BFF;  /* ou “blue”, ou outro hex como #1E90FF */
       color: white;
     }
 
-    .btn-google {
-      background: #DB4437;
-      color: white;
+    /* e se quiser um hover mais escuro: */
+    .btn-login:hover {
+      background-color: #0056b3;
     }
 
+    /* botão GitHub herda .btn e só acrescenta o ícone e cor */
     .btn-github {
       background: #333;
       color: white;
     }
 
-    .btn:hover {
-      opacity: 0.9;
+    /* classe auxiliar para centralizar ícone + texto */
+    .btn-social {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
 
     @media (max-width: 600px) {
@@ -138,19 +143,18 @@
 
   <!-- Seção de login social -->
   <hr>
-  <p th:text="#{login.ouEntrarCom}">Ou entre com:</p>
+  <p>Ou entre com:</p>
 
-  <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
-    <a href="/oauth2/authorization/google" class="btn btn-google" style="display: flex; align-items: center; justify-content: center; gap: 10px;">
-      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg" alt="Google" style="width: 20px; height: 20px;">
-      Google
-    </a>
+  <a th:href="@{/oauth2/authorization/github}"
+     class="btn btn-github btn-social">
+    <img
+            src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg"
+            alt="GitHub"
+            style="width:20px; height:20px; filter: invert(1);">
+    GitHub
+  </a>
 
-    <a href="/oauth2/authorization/github" class="btn btn-github" style="display: flex; align-items: center; justify-content: center; gap: 10px;">
-      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" style="width: 20px; height: 20px; filter: invert(1);">
-      GitHub
-    </a>
-  </div>
+</div>
 </div>
 
 </body>

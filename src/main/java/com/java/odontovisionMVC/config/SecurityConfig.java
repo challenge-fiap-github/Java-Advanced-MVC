@@ -17,13 +17,14 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-//
+
+    // 1) Password encoder
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // Usuário em memória para testes
+    // 2) Usuário em memória (apenas para testes)
     @Bean
     public UserDetailsService userDetailsService(PasswordEncoder encoder) {
         var admin = User.builder()
@@ -34,57 +35,67 @@ public class SecurityConfig {
         return new InMemoryUserDetailsManager(admin);
     }
 
+    // 3) Provedor DAO para autenticação form-based
     @Bean
-    public DaoAuthenticationProvider authenticationProvider(UserDetailsService userDetailsService,
-                                                            PasswordEncoder encoder) {
+    public DaoAuthenticationProvider authenticationProvider(
+            UserDetailsService userDetailsService,
+            PasswordEncoder passwordEncoder
+    ) {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(userDetailsService);
-        provider.setPasswordEncoder(encoder);
+        provider.setPasswordEncoder(passwordEncoder);
         return provider;
     }
-//
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        http
-//                .authorizeHttpRequests(auth -> auth
-//                        .requestMatchers(
-//                                "/login",
-//                                "/css/**",
-//                                "/js/**",
-//                                "/images/**",
-//                                "/oauth2/**",         // URLs usadas pelo OAuth2
-//                                "/locale",            // controller de troca de idioma
-//                                "/**.css", "/**.js"
-//                        ).permitAll()
-//
-//                        .requestMatchers("/painel/**", "/usuarios/**", "/dentistas/**").hasRole("ADMIN")
-//                        .anyRequest().authenticated()
-//                )
-//
-//                // Login tradicional
-//                .formLogin(form -> form
-//                        .loginPage("/login")
-//                        .defaultSuccessUrl("/painel", true)
-//                        .permitAll()
-//                )
-//
-//                // Login via Google e GitHub
-//                .oauth2Login(oauth -> oauth
-//                        .loginPage("/login")
-//                        .defaultSuccessUrl("/painel", true)
-//                )
-//
-//                // Logout
-//                .logout(logout -> logout
-//                        .logoutSuccessUrl("/login?logout")
-//                        .permitAll()
-//                );
-//
-//        return http.build();
-//    }
-//
+
+    // 4) Expor AuthenticationManager para uso no controller de login manual (se necessário)
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+    public AuthenticationManager authenticationManager(
+            AuthenticationConfiguration config
+    ) throws Exception {
         return config.getAuthenticationManager();
+    }
+
+    // 5) SecurityFilterChain com regras de acesso, formLogin e oauth2Login
+    @Bean
+    public SecurityFilterChain filterChain(
+            HttpSecurity http,
+            DaoAuthenticationProvider authProvider
+    ) throws Exception {
+        http
+                // registra o provedor de autenticação form-based
+                .authenticationProvider(authProvider)
+
+                // configura quem pode acessar o quê
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(
+                                "/", "/css/**", "/js/**", "/images/**",
+                                "/login", "/error", "/oauth2/**"
+                        ).permitAll()
+                        .anyRequest().authenticated()
+                )
+
+                // configuração do login tradicional
+                .formLogin(form -> form
+                        .loginPage("/login")                 // nossa página MVC
+                        .loginProcessingUrl("/login")        // POST /login
+                        .defaultSuccessUrl("/painel", true)  // após sucesso
+                        .failureUrl("/login?erro")           // em caso de falha
+                )
+
+                // configuração do login via OAuth2 (GitHub, Google, etc)
+                .oauth2Login(oauth -> oauth
+                        .loginPage("/login")                 // reaproveita /login
+                        .defaultSuccessUrl("/painel", true)  // após sucesso OAuth
+                )
+
+                // logout simples
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/")
+                )
+
+        ;
+
+        return http.build();
     }
 }
