@@ -5,10 +5,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class HomeController {
-
-    // Define a página inicial ao acessar "/"
-    @GetMapping("/")
+    @GetMapping({"/", "/home"})
     public String home() {
-        return "index"; // Redireciona para a página index.html
+        return "home";
     }
 }

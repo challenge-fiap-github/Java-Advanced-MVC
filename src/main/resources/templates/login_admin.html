@@ -4,10 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title th:text="#{login.titulo}">Login</title>
+  <!-- FontAwesome (ícones) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f8f9fa;
+      background: linear-gradient(135deg, #74ebd5 0%, #ACB6E5 100%);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -17,144 +20,170 @@
 
     header {
       position: absolute;
-      top: 10px;
+      top: 15px;
       right: 20px;
     }
 
     .lang-switcher a {
       margin: 0 5px;
       text-decoration: none;
-      color: #007BFF;
+      color: #222; /* <-- AQUI TROCAMOS para preto suave */
       font-weight: bold;
       font-size: 14px;
     }
 
     .lang-switcher a:hover {
+      color: #007BFF;
       text-decoration: underline;
     }
 
     .container {
       background: white;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
       width: 100%;
       max-width: 400px;
       text-align: center;
+      animation: fadeIn 0.8s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     h2 {
       color: #333;
-      margin-bottom: 20px;
+      margin-bottom: 25px;
+      font-size: 26px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
     }
 
     label {
       font-weight: bold;
-      display: block;
-      margin-top: 10px;
       text-align: left;
+      margin-bottom: 5px;
+      font-size: 15px;
     }
 
     input {
       width: 100%;
-      padding: 10px;
-      margin-top: 5px;
+      padding: 12px;
       border: 1px solid #ddd;
-      border-radius: 5px;
+      border-radius: 6px;
       font-size: 16px;
+      transition: border-color 0.3s;
+    }
+
+    input:focus {
+      border-color: #007BFF;
+      outline: none;
     }
 
     .error {
       color: red;
-      margin-top: 10px;
-      display: block;
+      font-size: 14px;
+      margin-top: 5px;
     }
 
     .btn {
       width: 100%;
       padding: 12px;
       border: none;
-      border-radius: 5px;
-      cursor: pointer;
+      border-radius: 6px;
       font-size: 16px;
-      margin-top: 10px;
-      text-decoration: none;
-      display: block;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s;
     }
 
     .btn-login {
-      background-color: #007BFF;  /* ou “blue”, ou outro hex como #1E90FF */
+      background-color: #007BFF;
       color: white;
     }
 
-    /* e se quiser um hover mais escuro: */
     .btn-login:hover {
       background-color: #0056b3;
     }
 
-    /* botão GitHub herda .btn e só acrescenta o ícone e cor */
-    .btn-github {
-      background: #333;
-      color: white;
+    hr {
+      margin: 20px 0;
+      border: none;
+      border-top: 1px solid #eee;
     }
 
-    /* classe auxiliar para centralizar ícone + texto */
-    .btn-social {
+    p {
+      margin: 10px 0;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .btn-github {
+      background: #24292e;
+      color: white;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 10px;
+      text-decoration: none;
     }
 
-    @media (max-width: 600px) {
-      header {
-        position: static;
-        margin-top: 10px;
-        text-align: center;
-      }
+    .btn-github:hover {
+      background: #000;
+    }
+
+    .btn-github img {
+      width: 22px;
+      height: 22px;
+      filter: invert(1);
     }
   </style>
 </head>
+
 <body>
 
 <header>
   <div class="lang-switcher">
-    🌐
+    <i class="fas fa-globe" style="color:#222; margin-right:5px;"></i>
     <a href="?lang=pt">Português</a> |
     <a href="?lang=en">English</a> |
     <a href="?lang=es">Español</a>
   </div>
 </header>
 
+
 <div class="container">
   <h2 th:text="#{login.titulo}">Login do Administrador</h2>
 
   <form th:action="@{/login}" method="post">
-    <label th:text="#{login.usuario}">Usuário:</label>
-    <input type="text" name="username" required>
+    <div>
+      <label th:text="#{login.usuario}">Usuário:</label>
+      <input type="text" name="username" required>
+    </div>
 
-    <label th:text="#{login.senha}">Senha:</label>
-    <input type="password" name="password" required>
+    <div>
+      <label th:text="#{login.senha}">Senha:</label>
+      <input type="password" name="password" required>
+    </div>
 
     <p class="error" th:if="${erro}" th:text="${erro}">Usuário ou senha inválidos.</p>
 
     <button type="submit" class="btn btn-login" th:text="#{login.entrar}">Entrar</button>
   </form>
 
-  <!-- Seção de login social -->
   <hr>
   <p>Ou entre com:</p>
 
-  <a th:href="@{/oauth2/authorization/github}"
-     class="btn btn-github btn-social">
-    <img
-            src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg"
-            alt="GitHub"
-            style="width:20px; height:20px; filter: invert(1);">
+  <a th:href="@{/oauth2/authorization/github}" class="btn btn-github">
+    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub">
     GitHub
   </a>
-
-</div>
 </div>
 
 </body>

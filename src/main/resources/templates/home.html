@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title th:text="#{home.titulo}">Bem-vindo</title>
+  <title>OdontoVision</title>
   <style>
     * {
       box-sizing: border-box;
@@ -21,7 +21,6 @@
       padding: 20px;
       position: relative;
     }
-
     .container {
       background: white;
       padding: 20px;
@@ -30,17 +29,14 @@
       max-width: 500px;
       width: 100%;
     }
-
     h1 {
       color: #007BFF;
       margin-bottom: 20px;
     }
-
     p {
       color: #555;
       margin-bottom: 20px;
     }
-
     .btn {
       display: block;
       padding: 12px;
@@ -52,55 +48,46 @@
       margin-top: 10px;
       width: 100%;
     }
-
     .btn:hover {
       background: #0056b3;
     }
-
     .lang-selector {
       position: absolute;
       top: 20px;
       right: 30px;
       font-size: 14px;
     }
-
     .lang-selector a {
       color: #007BFF;
       text-decoration: none;
       font-weight: bold;
       margin: 0 5px;
     }
-
     .lang-selector a:hover {
       text-decoration: underline;
-    }
-
-    @media (max-width: 600px) {
-      .container {
-        width: 90%;
-      }
-
-      .lang-selector {
-        top: 10px;
-        right: 10px;
-        font-size: 12px;
-      }
     }
   </style>
 </head>
 <body>
 
-<!-- Seletor de idioma bonito e fixado -->
+<!-- Seletor de idioma -->
 <div class="lang-selector">
-  🌐 <a href="?lang=pt">Português</a> |
+  🌐
+  <a href="?lang=pt">Português</a> |
   <a href="?lang=en">English</a> |
   <a href="?lang=es">Español</a>
 </div>
 
 <div class="container">
   <h1 th:text="#{home.bemvindo}">Bem-vindo ao OdontoVision</h1>
-  <p th:text="#{home.descricao}">Sistema de gerenciamento para cadastro de usuários e dentistas.</p>
-  <a th:href="@{/login}" class="btn" th:text="#{home.entrar}">Entrar</a>
+  <p th:text="#{home.descricao}">
+    Sistema de gerenciamento para cadastro de usuários e dentistas.
+  </p>
+
+
+  <a th:href="@{/login}" class="btn" th:text="#{home.entrar}">
+    Entrar
+  </a>
 </div>
 
 </body>
