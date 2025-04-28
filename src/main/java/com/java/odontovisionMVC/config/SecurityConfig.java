@@ -7,11 +7,11 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -47,7 +47,7 @@ public class SecurityConfig {
         return provider;
     }
 
-    // 4) Expor AuthenticationManager para uso no controller de login manual (se necessário)
+    // 4) AuthenticationManager (caso precise injetar manualmente)
     @Bean
     public AuthenticationManager authenticationManager(
             AuthenticationConfiguration config
@@ -55,7 +55,7 @@ public class SecurityConfig {
         return config.getAuthenticationManager();
     }
 
-    // 5) SecurityFilterChain com regras de acesso, formLogin e oauth2Login
+    // 5) Regras de segurança, formLogin, oauth2Login, logout e CSRF
     @Bean
     public SecurityFilterChain filterChain(
             HttpSecurity http,
@@ -65,35 +65,46 @@ public class SecurityConfig {
                 // registra o provedor de autenticação form-based
                 .authenticationProvider(authProvider)
 
-                // configura quem pode acessar o quê
+                //  ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+                // CSRF: ignora apenas o endpoint /chat (AJAX)
+                .csrf(csrf -> csrf
+                        .ignoringRequestMatchers("/chat")
+                )
+                //  ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
+                // configuração de quais URLs são permitidas sem login
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/", "/css/**", "/js/**", "/images/**",
                                 "/login", "/error", "/oauth2/**"
                         ).permitAll()
+
+                        // permite acesso autenticado ao /chat
+                        .requestMatchers("/chat").authenticated()
+
+                        // todas as outras URLs também exigem autenticação
                         .anyRequest().authenticated()
                 )
 
                 // configuração do login tradicional
                 .formLogin(form -> form
-                        .loginPage("/login")                 // nossa página MVC
-                        .loginProcessingUrl("/login")        // POST /login
-                        .defaultSuccessUrl("/painel", true)  // após sucesso
-                        .failureUrl("/login?erro")           // em caso de falha
+                        .loginPage("/login")
+                        .loginProcessingUrl("/login")
+                        .defaultSuccessUrl("/painel", true)
+                        .failureUrl("/login?erro")
                 )
 
                 // configuração do login via OAuth2 (GitHub, Google, etc)
                 .oauth2Login(oauth -> oauth
-                        .loginPage("/login")                 // reaproveita /login
-                        .defaultSuccessUrl("/painel", true)  // após sucesso OAuth
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/painel", true)
                 )
 
-                // logout simples
+                // configuração do logout
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/")
                 )
-
         ;
 
         return http.build();
