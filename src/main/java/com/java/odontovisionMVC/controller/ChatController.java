@@ -9,6 +9,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/chat")
+@CrossOrigin(origins = "*") // Libera para chamadas externas (frontend, etc.)
 public class ChatController {
 
     private final ChatService chatService;
@@ -18,17 +19,22 @@ public class ChatController {
     }
 
     /**
-     * Recebe no body um JSON { "message": "texto da pergunta" },
-     * chama o ChatService e devolve { "answer": "texto da resposta" }.
+     * Endpoint principal para o Chat-Ops.
+     * Exemplo de chamada:
+     * POST /chat
+     * Body: { "message": "Quantos pacientes temos?" }
+     *
+     * @param payload JSON contendo {"message": "..."}
+     * @return JSON com {"answer": "..."}
      */
     @PostMapping
     public ResponseEntity<Map<String, String>> chat(@RequestBody Map<String, String> payload) {
         String pergunta = payload.get("message");
+        if (pergunta == null || pergunta.isBlank()) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Mensagem não pode estar vazia."));
+        }
+
         String resposta = chatService.perguntar(pergunta);
-
-        Map<String, String> respostaMap = new HashMap<>();
-        respostaMap.put("answer", resposta);
-
-        return ResponseEntity.ok(respostaMap);
+        return ResponseEntity.ok(Map.of("answer", resposta));
     }
 }
