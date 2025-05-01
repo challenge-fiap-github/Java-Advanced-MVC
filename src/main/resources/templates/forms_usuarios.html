@@ -29,9 +29,7 @@
             font-size: 14px;
             font-weight: bold;
         }
-        .lang-switcher a:hover {
-            text-decoration: underline;
-        }
+        .lang-switcher a:hover { text-decoration: underline; }
         .container {
             background: white;
             padding: 20px;
@@ -89,7 +87,6 @@
 </head>
 <body>
 
-<!-- 🌐 Seletor de idioma -->
 <header>
     <div class="lang-switcher">
         🌐 <a href="?lang=pt">Português</a> |
@@ -111,7 +108,7 @@
         <input type="email" th:field="*{email}" required/>
 
         <label class="required" th:text="#{usuario.cpf}">CPF:</label>
-        <input type="text" th:field="*{cpf}" required/>
+        <input type="text" th:field="*{cpf}" required id="cpf"/>
 
         <label class="required" th:text="#{usuario.dataNascimento}">Data de Nascimento:</label>
         <input type="date" id="dataNascimento" th:field="*{dataNascimento}" placeholder="dd/mm/aaaa" required/>
@@ -132,15 +129,15 @@
                 </div>
                 <div>
                     <label class="required" th:text="#{usuario.cep}">CEP:</label>
-                    <input type="text" th:field="*{endereco.cep}" required/>
+                    <input type="text" th:field="*{endereco.cep}" required id="cep"/>
                 </div>
             </div>
 
             <label class="required" th:text="#{usuario.cidade}">Cidade:</label>
-            <input type="text" th:field="*{endereco.cidade}" required/>
+            <input type="text" th:field="*{endereco.cidade}" required id="cidade"/>
 
             <label class="required" th:text="#{usuario.estado}">Estado:</label>
-            <input type="text" th:field="*{endereco.estado}" required/>
+            <input type="text" th:field="*{endereco.estado}" required id="estado"/>
 
             <label th:text="#{usuario.complemento}">Complemento:</label>
             <input type="text" th:field="*{endereco.complemento}" />
@@ -150,6 +147,49 @@
         <a th:href="@{/painel}" class="cancel" th:text="#{usuario.cancelar}">Cancelar</a>
     </form>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const cepInput = document.getElementById('cep');
+        const cidadeInput = document.getElementById('cidade');
+        const estadoInput = document.getElementById('estado');
+        const cpfInput = document.getElementById('cpf');
+
+        // CEP: máscara e busca
+        cepInput.addEventListener('input', () => {
+            let val = cepInput.value.replace(/\D/g, '').slice(0, 8);
+            cepInput.value = val.length > 5 ? val.replace(/^(\d{5})(\d{0,3})/, '$1-$2') : val;
+        });
+
+        cepInput.addEventListener('blur', () => {
+            const cep = cepInput.value.replace(/\D/g, '');
+            if (cep.length === 8) {
+                fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                    .then(res => res.json())
+                    .then(data => {
+                        if (!data.erro) {
+                            cidadeInput.value = data.localidade;
+                            estadoInput.value = data.uf;
+                        }
+                    });
+            }
+        });
+
+        // CPF: máscara
+        cpfInput.addEventListener('input', () => {
+            let val = cpfInput.value.replace(/\D/g, '').slice(0, 11);
+            cpfInput.value = val.replace(/(\d{3})(\d{3})(\d{3})(\d{0,2})/, function(_, a, b, c, d) {
+                return d ? `${a}.${b}.${c}-${d}` : c ? `${a}.${b}.${c}` : b ? `${a}.${b}` : a;
+            });
+        });
+
+        // Remover máscaras no envio
+        document.querySelector('form').addEventListener('submit', () => {
+            cpfInput.value = cpfInput.value.replace(/\D/g, '');
+            cepInput.value = cepInput.value.replace(/\D/g, '');
+        });
+    });
+</script>
 
 </body>
 </html>
