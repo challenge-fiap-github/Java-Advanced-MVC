@@ -140,7 +140,7 @@
 			        <subscriptionId/>
 			        <resourceGroup>odontovisionMVC-Java-rm553568-rg</resourceGroup>
 			        <appName>odontovisionMVC-Java-rm553568</appName>
-			        <pricingTier>B1</pricingTier>
+			        <pricingTier>F1</pricingTier>
 			        <region>brazilsouth</region>
 			        <runtime>
 			            <os>Linux</os>
