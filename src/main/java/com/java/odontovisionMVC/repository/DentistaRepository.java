@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Repository
@@ -24,7 +23,7 @@ public interface DentistaRepository extends JpaRepository<Dentista, Long> {
         SELECT ec.estado, COUNT(d.id)
           FROM Dentista d
           JOIN EnderecoClinica ec ON ec.dentista.id = d.id
-      GROUP BY ec.estado
+         GROUP BY ec.estado
     """)
-    Map<String, Long> countDentistasPorEstado();
+    List<Object[]> countDentistasPorEstadoRaw();
 }

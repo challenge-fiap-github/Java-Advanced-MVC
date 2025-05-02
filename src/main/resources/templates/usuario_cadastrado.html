@@ -15,12 +15,15 @@
       align-items: center;
       justify-content: center;
       height: 100vh;
+      position: relative;
+      text-align: center;
     }
 
     header {
       position: absolute;
       top: 10px;
       right: 20px;
+      z-index: 10;
     }
 
     .lang-switcher a {
@@ -57,6 +60,7 @@
       color: white;
       text-decoration: none;
       border-radius: 5px;
+      font-weight: bold;
     }
 
     .btn:hover {
@@ -67,17 +71,19 @@
       header {
         position: static;
         margin-top: 10px;
+        text-align: center;
       }
     }
   </style>
+
 </head>
 <body>
 
 <header>
   <div class="lang-switcher">
-    🌐 <a href="?lang=pt">🇧🇷 Português</a> |
-    <a href="?lang=en">🇺🇸 English</a> |
-    <a href="?lang=es">🇪🇸 Español</a>
+    🌐 <a href="?lang=pt">Português</a> |
+    <a href="?lang=en">English</a> |
+    <a href="?lang=es">Español</a>
   </div>
 </header>
 

@@ -54,15 +54,21 @@ class DentistaServiceImpl implements DentistaService {
     public DentistaDto salvar(DentistaDto dto) {
         Dentista dentista = DentistaMapper.toEntity(dto);
 
-        // Garante o relacionamento bidirecional entre dentista e seu endereço
+        // Normaliza o CEP: remove qualquer caractere que não seja número
         EnderecoClinica endereco = dentista.getEndereco();
         if (endereco != null) {
             endereco.setDentista(dentista);
+
+            String cepFormatado = endereco.getCep();
+            if (cepFormatado != null) {
+                endereco.setCep(cepFormatado.replaceAll("\\D", "")); // remove - e outros símbolos
+            }
         }
 
         Dentista salvo = dentistaRepository.save(dentista);
         return DentistaMapper.toDto(salvo);
     }
+
 
     /**
      * Exclui um dentista pelo ID, após verificar se ele existe.

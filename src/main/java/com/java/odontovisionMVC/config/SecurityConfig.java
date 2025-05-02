@@ -19,13 +19,11 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    // 1) Password encoder padrão
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // 2) Usuário em memória para testes iniciais
     @Bean
     public UserDetailsService userDetailsService(PasswordEncoder encoder) {
         var admin = User.builder()
@@ -34,14 +32,8 @@ public class SecurityConfig {
                 .roles("ADMIN")
                 .build();
         return new InMemoryUserDetailsManager(admin);
-
-        /*
-        // Depois, quando for buscar do Banco:
-        return new CustomUserDetailsService();
-        */
     }
 
-    // 3) Provedor de autenticação (DAO com UserDetails)
     @Bean
     public DaoAuthenticationProvider authenticationProvider(UserDetailsService userDetailsService,
                                                             PasswordEncoder passwordEncoder) {
@@ -51,19 +43,17 @@ public class SecurityConfig {
         return provider;
     }
 
-    // 4) Authentication Manager (padrão do Spring Security moderno)
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
 
-    // 5) Security Rules
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, DaoAuthenticationProvider authProvider) throws Exception {
         http
                 .authenticationProvider(authProvider)
 
-                // Ignorar CSRF para APIs usadas pelo Admin Server e chat
+                // Ignora CSRF para endpoints públicos de monitoramento e chat
                 .csrf(csrf -> csrf.ignoringRequestMatchers(
                         new AntPathRequestMatcher("/chat"),
                         new AntPathRequestMatcher("/instances"),
@@ -71,13 +61,18 @@ public class SecurityConfig {
                         new AntPathRequestMatcher("/admin/**")
                 ))
 
-                // Controle de acesso
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/home", "/css/**", "/js/**", "/images/**",
+                        // Libera totalmente os recursos necessários ao Spring Boot Admin Client + recursos estáticos
+                        .requestMatchers(
+                                "/", "/home", "/css/**", "/js/**", "/images/**",
                                 "/login", "/error", "/oauth2/**",
-                                "/instances", "/actuator/**").permitAll()
-                        .requestMatchers("/admin/**").authenticated()
+                                "/actuator/**", "/instances", "/admin/**"
+                        ).permitAll()
+
+                        // Protege recursos internos como chat, APIs privadas etc.
                         .requestMatchers("/chat").authenticated()
+
+                        // Protege o restante
                         .anyRequest().authenticated()
                 )
 
@@ -90,13 +85,13 @@ public class SecurityConfig {
                         .permitAll()
                 )
 
-                // OAuth2 login
+                // OAuth2 (GitHub login)
                 .oauth2Login(oauth -> oauth
                         .loginPage("/login")
                         .defaultSuccessUrl("/painel", true)
                 )
 
-                // Logout geral (página principal)
+                // Logout geral
                 .logout(logout -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                         .logoutSuccessUrl("/")

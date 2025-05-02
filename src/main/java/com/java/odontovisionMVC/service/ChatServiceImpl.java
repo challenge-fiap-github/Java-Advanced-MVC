@@ -54,8 +54,17 @@ public class ChatServiceImpl implements ChatService {
     }
 
     private String getResumoPorEstado() {
-        Map<String, Long> pacientesPorEstado = usuarioRepo.countPacientesPorEstado();
-        Map<String, Long> dentistasPorEstado = dentistaRepo.countDentistasPorEstado();
+        Map<String, Long> pacientesPorEstado = usuarioRepo.countPacientesPorEstadoRaw().stream()
+                .collect(Collectors.toMap(
+                        r -> (String) r[0],
+                        r -> (Long) r[1]
+                ));
+
+        Map<String, Long> dentistasPorEstado = dentistaRepo.countDentistasPorEstadoRaw().stream()
+                .collect(Collectors.toMap(
+                        r -> (String) r[0],
+                        r -> (Long) r[1]
+                ));
 
         StringBuilder sb = new StringBuilder("Distribuição por estado:\n");
         pacientesPorEstado.forEach((estado, total) -> sb.append(String.format("• %s: %d pacientes\n", estado, total)));
