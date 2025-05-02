@@ -110,19 +110,20 @@ public class ChatServiceImpl implements ChatService {
                             .path("/openai/deployments/{deployment}/chat/completions")
                             .queryParam("api-version", "2023-07-01-preview")
                             .build(deploymentId))
-                    .body(Mono.just(payload), new ParameterizedTypeReference<>() {})
+                    .body(Mono.just(payload), new ParameterizedTypeReference<Object>() {})
                     .retrieve()
                     .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {})
                     .block();
 
             if (response == null || !response.containsKey("choices")) return "Resposta inesperada do serviço.";
 
-            var choices = (List<?>) response.get("choices");
+            List<?> choices = (List<?>) response.get("choices");
             if (choices.isEmpty()) return "Nenhuma resposta gerada.";
 
-            var messageObj = ((Map<?, ?>) choices.get(0)).get("message");
-            if (!(messageObj instanceof Map<?, ?> msgMap)) return "Erro ao interpretar resposta.";
+            Object messageObj = ((Map<?, ?>) choices.get(0)).get("message");
+            if (!(messageObj instanceof Map)) return "Erro ao interpretar resposta.";
 
+            Map<?, ?> msgMap = (Map<?, ?>) messageObj;
             Object conteudo = msgMap.get("content");
             return conteudo != null ? conteudo.toString() : "Sem conteúdo gerado.";
 

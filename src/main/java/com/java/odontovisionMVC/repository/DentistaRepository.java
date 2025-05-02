@@ -19,11 +19,9 @@ public interface DentistaRepository extends JpaRepository<Dentista, Long> {
 
     List<Dentista> findByNomeContainingIgnoreCase(String fragmentoNome);
 
-    @Query("""
-        SELECT ec.estado, COUNT(d.id)
-          FROM Dentista d
-          JOIN EnderecoClinica ec ON ec.dentista.id = d.id
-         GROUP BY ec.estado
-    """)
+    @Query("SELECT ec.estado, COUNT(d.id) " +
+            "FROM Dentista d " +
+            "JOIN EnderecoClinica ec ON ec.dentista.id = d.id " +
+            "GROUP BY ec.estado")
     List<Object[]> countDentistasPorEstadoRaw();
 }
