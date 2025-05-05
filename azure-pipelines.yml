@@ -5,14 +5,12 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-# Instala o Java 17 dinamicamente no agente
 - task: JavaToolInstaller@0
   inputs:
     versionSpec: '17'
     jdkArchitectureOption: 'x64'
     jdkSourceOption: 'PreInstalled'
 
-# Compila o projeto com Maven, agora usando o JDK 17 instalado acima
 - task: Maven@3
   inputs:
     mavenPomFile: 'pom.xml'
