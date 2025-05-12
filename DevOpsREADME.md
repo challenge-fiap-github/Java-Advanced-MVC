@@ -4,7 +4,6 @@
 
 ## ✅ Sprint 3 – Funcionalidades Implementadas
 
----
 
 ## 🚀 **OdontovisionMVC - Aplicação Java MVC na Azure**
 ### 📌 **Descrição**
