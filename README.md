@@ -4,10 +4,11 @@
 A **OdontoVision** é uma solução inovadora para clientes da **Odontoprev**, combinando **gamificação, análise preditiva por IA e integração com recompensas**. O sistema incentiva a adesão dos pacientes aos cuidados odontológicos, permitindo que acumulem pontos e participem de um programa de fidelidade.
 
 A solução envolve:
-- **📱 Aplicativo móvel (React Native):** define o planejamento de consultas e checklist diário de higiene bucal.
+- **📱 Aplicativo móvel (React Native):** aplicativo que será utilizado pelo paciente.
+- **🍵 API Java:** desenvolvida para conectar com o aplicativo.
 - **💻 Plataforma Web (C#):** utilizada pelos dentistas para registrar diagnósticos e alimentar a base de dados.
 - **🧠 Inteligência Artificial (Python - Random Forest):** identifica possíveis fraudes e inconsistências nos diagnósticos.
-- **🎮 Sistema de Gamificação:** recompensa os pacientes com pontos, dobrando-os se mantiverem uma boa higiene bucal.
+- **☕ MVC Java:** plataforma para cadastro de dentistas e pacientes(usuarios), realizadas por um admin.
 - **🔗 Integração Futura:** conexão com **Livelo** para ampliar o catálogo de recompensas.
 
 ---
@@ -21,44 +22,52 @@ A solução envolve:
 
 ---
 
-## 🛠 Tecnologias Utilizadas
+## 🛠 Tecnologias Utilizadas e Versões
 
-### 🔹 **Back-end:**
-- Java 17
-- Spring Boot 3.4.3 (MVC, JPA, Thymeleaf)
 
-### 🔹 **Banco de Dados:**
-- Oracle Database
+- **Java**: 17
+- **Spring Boot** (parent): 3.4.3
+- **Spring AI** (BOM): 1.0.0-M7
+- **Spring Boot Admin** (BOM): 3.4.5
 
-### 🔹 **Front-end Web:**
-- HTML + CSS + Thymeleaf (para administração cadastrar dentistas e pacientes)
+### Starters Spring Boot
+- **spring-boot-starter-data-jpa**
+- **spring-boot-starter-jdbc**
+- **spring-boot-starter-thymeleaf**
+- **spring-boot-starter-web**
+- **spring-boot-starter-security**
+- **spring-boot-starter-oauth2-client**
+- **spring-boot-starter-test** (escopo `test`)
 
-### 🔹 **Aplicativo Móvel:**
-- React Native + TypeScript
+### Banco de Dados
+- **Oracle JDBC Driver**: `com.oracle.database.jdbc:ojdbc11` (runtime)
 
-### 🔹 **Análise de Dados e IA:**
-- Python (Random Forest)
+### Inteligência Artificial
+- **Spring AI Starter (Azure OpenAI)**: `org.springframework.ai:spring-ai-starter-model-azure-openai`
+- **Azure OpenAI SDK**: `com.azure:azure-ai-openai:1.0.0-beta.16`
+- **Azure Identity**: `com.azure:azure-identity:1.13.3`
 
-### 🔹 **Plataforma Web Dentistas:**
-- C# .NET Core
+### Spring Boot Admin
+- **Admin Server**: `de.codecentric:spring-boot-admin-starter-server`
+- **Admin Client**: `de.codecentric:spring-boot-admin-starter-client`
+
+### Plugins Maven
+- **spring-boot-maven-plugin** (versão gerenciada pelo parent)
+- **azure-webapp-maven-plugin**: 2.8.0
 
 ---
 ### Link para o Vídeo: https://youtu.be/RctTLVTSYdo
 Caso haja alguma dúvida sobre a persistência de dados no Banco, segue o vídeo feito para DevOps da aplicação funcionando na nuvem com o banco Oracle
 
-#### Link do Vídeo: https://youtu.be/mnLcVI8NGOc
-
-#### Infelizmente o YouTube excluiu o vídeo de DevOps depois da entrega do Portal do Aluno, mostrei todas as evidências para o professor, coloquei o vídeo no drive, portanto caso queira assistir esse é o link certo: 
-
-https://drive.google.com/drive/folders/12CTa83-surFr0Aiwn206EILItv5Rnw5s 
+#### Link do Vídeo: https://youtu.be/ZKhnviyEjqA
 
 ---
 ## 🗂 Arquitetura do Sistema
-### 🔹 Diagrama UML
+### 🔹 Diagrama Banco de Dados
 ![img.png](img.png)
 
 ### 🔹 Diagrama UML Java
-![img_1.png](img_1.png)
+
 
 
 ## 📜 Instalação e Configuração
@@ -80,25 +89,12 @@ mvn clean install
 mvn spring-boot:run
 ```
 #### Acesso:
-Login: admin123
+Login: admin
 
 Senha: admin123
 
 ---
 
-### 📌 Desenvolvimento
-
-#### O projeto é dividido em módulos independentes que se comunicam por meio de APIs REST:
-
-•	Spring Boot (Backend Principal): Gerencia usuários, pontuação, consultas e regras de gamificação.
-
-•	React Native (Mobile App): Interface para pacientes acompanharem sua pontuação e agendarem consultas.
-
-•	C# .NET (Plataforma Web Dentistas): Interface para dentistas registrarem diagnósticos.
-
-•	Python (IA): Analisa padrões suspeitos para identificar fraudes
-
----
 ### Exemplos para Teste
 
 ### **Dentista**
