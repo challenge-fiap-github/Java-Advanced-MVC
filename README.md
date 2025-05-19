@@ -67,7 +67,7 @@ Caso haja alguma dúvida sobre a persistência de dados no Banco, segue o vídeo
 ![img.png](img.png)
 
 ### 🔹 Diagrama UML Java
-![img_1.png](img_1.png)
+![odontovisionMVC.png](odontovisionMVC.png)
 
 
 ## 📜 Instalação e Configuração
