@@ -56,7 +56,7 @@ A solução envolve:
 - **azure-webapp-maven-plugin**: 2.8.0
 
 ---
-### Link para o Vídeo: https://youtu.be/RctTLVTSYdo
+### #### Link do Vídeo: https://youtu.be/zl-xSMVa724
 Caso haja alguma dúvida sobre a persistência de dados no Banco, segue o vídeo feito para DevOps da aplicação funcionando na nuvem com o banco Oracle
 
 #### Link do Vídeo: https://youtu.be/ZKhnviyEjqA
